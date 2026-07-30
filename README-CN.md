@@ -67,6 +67,7 @@ SemanticSkills/
 | --- | --- | --- | --- |
 | `huawei-cloud-billing-scout` | 2.3.8 | **华为云 · 花多少为何扣 · 只读对账** — KooCLI BSS 一页简报 | [详情](docs/skills/huawei-cloud-billing-scout.md) · [changelog](qa/huawei-cloud-billing-scout/CHANGELOG.zh.md) |
 | `huawei-cloud-cost-estimation` | 1.0.0 | **华为云成本估算** — hcloud BSS 包年/包月与按需询价 | [详情](docs/skills/huawei-cloud-cost-estimation.md) · [changelog](qa/huawei-cloud-cost-estimation/CHANGELOG.zh.md) |
+| `constraint-charter` | 0.1.0 | **约束宪章** — 把审计目标与数值门禁固化为受版本控制的 `GATES.md` | [详情](docs/skills/constraint-charter.md) · [changelog](qa/constraint-charter/CHANGELOG.md) |
 
 机器可读索引：[docs/catalog.yml](docs/catalog.yml)。
 
