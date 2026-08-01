@@ -86,7 +86,7 @@ qa/semantic-creator/
 
 ## Marketplaces
 
-- ClawHub: `semantic-creator` 0.5.1
+- ClawHub: `semantic-creator` 0.5.1; bundle license MIT-0
 
 ## Install
 

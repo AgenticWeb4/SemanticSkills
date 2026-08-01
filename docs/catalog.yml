@@ -59,6 +59,7 @@ skills:
     compatibility: No external tools or network; pure modeling + file generation; review report is self-contained HTML (inline CSS/JS, no CDN)
     marketplaces: [skills-sh, skillsmp, clawhub]
     distribution: direct-skill
+    clawhub_license: MIT-0 on ClawHub; repository source remains Apache-2.0
   - id: constraint-charter
     path: skills/constraint-charter
     qa: qa/constraint-charter
