@@ -2,11 +2,11 @@
 
 `huawei-cloud-cost-estimation` · **Huawei Cloud Cost Estimation & Controlled Provisioning — Quote, Create, Console-Guided Unsubscribe**
 
-Deterministic pre-order quotes via hcloud BSS (period `ListRateOnPeriodDetail`, on-demand `ListOnDemandResourceRatings`, specs resolved live via `ListResourceSpecs`) plus 74 controlled create operations. Creates require runtime `--help`, read-only dependency lookups, fee review, local `--dryrun`, and explicit confirmation. Unsubscribe is console-guidance-only: the skill never runs or emits an unsubscribe CLI/API command.
+Deterministic pre-order quotes via hcloud BSS (period `ListRateOnPeriodDetail`, on-demand `ListOnDemandResourceRatings`, specs resolved live via `ListResourceSpecs`) plus 74 controlled create operations. Small command chains complete directly; larger chains use reusable 2–3-command progress stages unless the user requests end-to-end completion. Creates still require runtime `--help`, fee review, local `--dryrun`, and explicit confirmation. Unsubscribe is console-guidance-only.
 
 > **华为社区版** · 社区维护，非华为云官方；结论以当次 hcloud 响应为准。
 
-**Version:** 3.1.0 · Changelog: [qa/huawei-cloud-cost-estimation/CHANGELOG.md](../../qa/huawei-cloud-cost-estimation/CHANGELOG.md) · 中文仓库说明：[README-CN.md](../../README-CN.md)
+**Version:** 3.2.0 · Changelog: [qa/huawei-cloud-cost-estimation/CHANGELOG.md](../../qa/huawei-cloud-cost-estimation/CHANGELOG.md) · 中文仓库说明：[README-CN.md](../../README-CN.md)
 
 ## What it does
 
@@ -43,6 +43,8 @@ No `evals/`, `qa/`, or `*-workspace/` under `skills/`.
 ```text
 User request
      │
+     ├─ Call Budget ─► ≤3 direct · ≥4 staged · +1 to close
+     │
      ├─ Quote ──► pricing/semantic catalog → spec lookup → RFQ → verify → present
      │
      ├─ Create ─► allowlist → runtime --help → resolve deps (read-only)
@@ -74,7 +76,7 @@ Create evals stop at `--dryrun`; unsubscribe evals enforce console-only guidance
 qa/huawei-cloud-cost-estimation/
 ├── validate.sh                  # layout, version sync, create allowlist + unsubscribe boundary
 ├── fixtures/ops_contracts.yml   # 74 create ops + forbidden destructive op
-├── evals/evals.json             # 18 offline cases (13–16 create, 17 unsubscribe, 18 refuse)
+├── evals/evals.json             # 19 offline cases (19 covers progressive execution)
 ├── assertions/README.md
 └── bin/                         # grade_response.py, run_ab_eval.py, aggregate_ab.py
 ```
@@ -82,6 +84,10 @@ qa/huawei-cloud-cost-estimation/
 ```bash
 ./qa/huawei-cloud-cost-estimation/validate.sh
 ```
+
+## Marketplaces
+
+- ClawHub: `huawei-cloud-cost-estimation` 3.2.0; bundle license MIT-0
 
 ## Install
 

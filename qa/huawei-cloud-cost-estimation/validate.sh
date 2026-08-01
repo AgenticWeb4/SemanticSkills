@@ -115,10 +115,34 @@ print("OK: write allowlist consistent (74 create; unsubscribe console-only)")
 PY
 }
 
+check_execution_budget() {
+  need_cmd python3
+  SKILL_DIR="$SKILL_DIR" QA_DIR="$QA_DIR" python3 - <<'PY'
+import json, os, sys
+from pathlib import Path
+
+skill = Path(os.environ["SKILL_DIR"])
+qa = Path(os.environ["QA_DIR"])
+main = skill.joinpath("SKILL.md").read_text(encoding="utf-8")
+concepts = skill.joinpath("references/lifecycle/concepts.md").read_text(encoding="utf-8")
+required = ["## Call Budget", "直达 · ≤3", "分段 · ≥4", "闭环", "回执", "降调用", "续跑"]
+missing = [token for token in required if token not in main]
+if missing:
+    sys.exit(f"FAIL: incomplete execution-budget contract: {missing}")
+if "Call Budget" not in concepts or "分段不拆门禁" not in concepts:
+    sys.exit("FAIL: lifecycle batch semantics are not aligned with Call Budget")
+evals = json.loads(qa.joinpath("evals/evals.json").read_text(encoding="utf-8"))["evals"]
+if not any(case.get("name") == "progressive-large-create" for case in evals):
+    sys.exit("FAIL: missing progressive-large-create eval")
+print("OK: call-budget contract present")
+PY
+}
+
 need_cmd rg
 check_skill_layout
 check_version_sync
 check_write_allowlist
+check_execution_budget
 run_local_or_npx skills-ref validate "$SKILL_DIR"
 run_local_or_npx markdownlint-cli2 --config "$QA_DIR/.markdownlint.json" "$SKILL_DIR/**/*.md"
 need_cmd skillcheck

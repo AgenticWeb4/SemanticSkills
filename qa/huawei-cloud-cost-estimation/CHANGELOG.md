@@ -2,6 +2,20 @@
 
 Skill-only history. Repository tooling changes: [../../CHANGELOG.md](../../CHANGELOG.md).
 
+## 3.2.0 - 2026-08-01
+
+### Added
+
+- Add a Call Budget: complete chains of up to three `hcloud` commands directly; stage larger chains in reusable 2–3-command increments
+- Require each progress checkpoint to report completed evidence, a usable partial result, remaining command count, and the next-stage outcome
+- Add eval #19 and a validation gate for progressive execution
+
+### Changed
+
+- Deduplicate and reuse lookups, parallelize independent reads, and batch same-mode multi-product RFQs
+- Let explicit end-to-end or continue requests bypass repeat progress checkpoints without weakening ambiguity, unknown-fee, `--dryrun`, or create-confirmation gates
+- Align lifecycle batch semantics so progress may be staged while the final confirmation still covers the complete dry-run batch
+
 ## 3.1.0 - 2026-07-14
 
 ### Added
