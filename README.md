@@ -66,7 +66,7 @@ SemanticSkills/
 | Skill | Version | Summary | Docs |
 | --- | --- | --- | --- |
 | `huawei-cloud-billing-scout` | 2.3.8 | **Huawei Cloud Read-Only Billing — Spend, Charges & Reconciliation** — one-page BSS briefing via KooCLI | [details](docs/skills/huawei-cloud-billing-scout.md) · [changelog](qa/huawei-cloud-billing-scout/CHANGELOG.md) |
-| `huawei-cloud-cost-estimation` | 3.2.0 | **Huawei Cloud Cost Estimation & Controlled Provisioning** — bounded progressive quotes and allowlisted creates | [details](docs/skills/huawei-cloud-cost-estimation.md) · [changelog](qa/huawei-cloud-cost-estimation/CHANGELOG.md) |
+| `huawei-cloud-cost-estimation` | 3.2.1 | **Huawei Cloud Cost Estimation & Controlled Provisioning** — paced multi-command quotes and allowlisted creates | [details](docs/skills/huawei-cloud-cost-estimation.md) · [changelog](qa/huawei-cloud-cost-estimation/CHANGELOG.md) |
 | `semantic-creator` | 0.5.1 | **Semantic Creator** — evidence-only interface → governed Kimball layer via an HTML decision workbench; OKF/YAML output | [details](docs/skills/semantic-creator.md) · [changelog](qa/semantic-creator/CHANGELOG.md) |
 | `constraint-charter` | 0.1.0 | **Constraint Charter** — persist Uncle Bob audit goals & numeric gates as versioned `GATES.md` | [details](docs/skills/constraint-charter.md) · [changelog](qa/constraint-charter/CHANGELOG.md) |
 

@@ -250,7 +250,7 @@
       "id": 19,
       "name": "progressive-large-create",
       "prompt": "帮我在 cn-north-4 创建一套环境：ECS、RDS MySQL、Redis、共享带宽和云硬盘，规格和网络依赖都帮我查清楚",
-      "expected_output": "长链先跑 2–3 条高杠杆只读查询；回执已得/可用/待做、预计剩余命令与产出，再问是否续跑；完整批次仍须全量 dry 后一次确认。",
+      "expected_output": "大任务每轮只执行 2–3 条最能推进结果的命令，说明已完成结果和下一步，并友好询问是否继续；完整批次仍须全量 dry 后一次确认。",
       "expectations": [
         "Treats the request as a large command chain and uses a 2-3-command progress stage",
         "Reports completed evidence or a currently usable partial result",

@@ -2,6 +2,13 @@
 
 Skill-only history. Repository tooling changes: [../../CHANGELOG.md](../../CHANGELOG.md).
 
+## 3.2.1 - 2026-08-01
+
+### Changed
+
+- Replace the label-heavy Call Budget block with two plain-language Execution Pace sentences
+- Keep the same small-task completion, 2–3-command staging, friendly continue prompt, and create safety gates
+
 ## 3.2.0 - 2026-08-01
 
 ### Added

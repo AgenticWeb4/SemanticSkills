@@ -23,9 +23,9 @@ skills:
     display_name_zh: "华为云成本估算与资源开通"
     domain: cloud
     subdomains: [pricing, finops, procurement, provisioning]
-    summary: Huawei Cloud pre-order pricing (period + on-demand, specs resolved live via ListResourceSpecs) plus 74 controlled create ops, including CodeArts IDE Online; small command chains complete directly while larger chains use reusable 2-3-command progress stages; creates still require runtime help, mandatory --dryrun, fee review and explicit confirmation; unsubscribe is console-guidance-only with no CLI/API; fail-fast batches, no auto-rollback
-    summary_zh: 华为云 · 询价 + 受控开通 + 退订控制台指引；小命令链直接完成，大命令链按 2–3 条可复用阶段渐进交付；74 个白名单开通命令必经运行时 help、强制 --dryrun、费用回表与显式确认；退订仅引导控制台；批次失败即停不自动回滚
-    version: "3.2.0"
+    summary: Huawei Cloud pre-order pricing (period + on-demand, specs resolved live via ListResourceSpecs) plus 74 controlled create ops; small command chains complete directly, larger chains run 2-3 commands per round and ask whether to continue; creates still require runtime help, mandatory --dryrun, fee review and explicit confirmation; unsubscribe is console-guidance-only with no CLI/API
+    summary_zh: 华为云 · 询价 + 受控开通 + 退订控制台指引；小任务直接完成，大任务每轮执行 2–3 条并友好询问是否继续；74 个白名单开通命令必经运行时 help、强制 --dryrun、费用回表与显式确认；退订仅引导控制台
+    version: "3.2.1"
     agents: [cursor, claude-code, codex, openclaw]
     compatibility: hcloud KooCLI 7.2+, IAM permissions matching requested read/create operations, outbound network; no agent auto-install
     marketplaces: [skills-sh, skillsmp, clawhub]

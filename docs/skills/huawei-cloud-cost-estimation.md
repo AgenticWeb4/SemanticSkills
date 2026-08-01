@@ -6,7 +6,7 @@ Deterministic pre-order quotes via hcloud BSS (period `ListRateOnPeriodDetail`, 
 
 > **华为社区版** · 社区维护，非华为云官方；结论以当次 hcloud 响应为准。
 
-**Version:** 3.2.0 · Changelog: [qa/huawei-cloud-cost-estimation/CHANGELOG.md](../../qa/huawei-cloud-cost-estimation/CHANGELOG.md) · 中文仓库说明：[README-CN.md](../../README-CN.md)
+**Version:** 3.2.1 · Changelog: [qa/huawei-cloud-cost-estimation/CHANGELOG.md](../../qa/huawei-cloud-cost-estimation/CHANGELOG.md) · 中文仓库说明：[README-CN.md](../../README-CN.md)
 
 ## What it does
 
@@ -43,7 +43,7 @@ No `evals/`, `qa/`, or `*-workspace/` under `skills/`.
 ```text
 User request
      │
-     ├─ Call Budget ─► ≤3 direct · ≥4 staged · +1 to close
+     ├─ Execution Pace ─► ≤3 direct · >3 staged with a continue prompt
      │
      ├─ Quote ──► pricing/semantic catalog → spec lookup → RFQ → verify → present
      │
@@ -87,7 +87,7 @@ qa/huawei-cloud-cost-estimation/
 
 ## Marketplaces
 
-- ClawHub: `huawei-cloud-cost-estimation` 3.2.0; bundle license MIT-0
+- ClawHub: `huawei-cloud-cost-estimation` 3.2.1; bundle license MIT-0
 
 ## Install
 

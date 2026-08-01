@@ -125,16 +125,16 @@ skill = Path(os.environ["SKILL_DIR"])
 qa = Path(os.environ["QA_DIR"])
 main = skill.joinpath("SKILL.md").read_text(encoding="utf-8")
 concepts = skill.joinpath("references/lifecycle/concepts.md").read_text(encoding="utf-8")
-required = ["## Call Budget", "直达 · ≤3", "分段 · ≥4", "闭环", "回执", "降调用", "续跑"]
+required = ["## Execution Pace", "不超过 3 条", "超过 3 条", "每轮只执行 2–3 条", "友好询问是否继续", "一次完成", "--dryrun"]
 missing = [token for token in required if token not in main]
 if missing:
     sys.exit(f"FAIL: incomplete execution-budget contract: {missing}")
-if "Call Budget" not in concepts or "分段不拆门禁" not in concepts:
-    sys.exit("FAIL: lifecycle batch semantics are not aligned with Call Budget")
+if "Execution Pace" not in concepts or "正式确认前" not in concepts:
+    sys.exit("FAIL: lifecycle batch semantics are not aligned with Execution Pace")
 evals = json.loads(qa.joinpath("evals/evals.json").read_text(encoding="utf-8"))["evals"]
 if not any(case.get("name") == "progressive-large-create" for case in evals):
     sys.exit("FAIL: missing progressive-large-create eval")
-print("OK: call-budget contract present")
+print("OK: execution-pace contract present")
 PY
 }
 
