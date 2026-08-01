@@ -9,6 +9,13 @@ Monorepo **基础设施**变更。各技能独立 changelog：
 | huawei-cloud-account-onboarding | [qa/huawei-cloud-account-onboarding/CHANGELOG.md](qa/huawei-cloud-account-onboarding/CHANGELOG.md) |
 | semantic-creator | [qa/semantic-creator/CHANGELOG.md](qa/semantic-creator/CHANGELOG.md) |
 
+## 3.9.0 - 2026-08-01
+
+### 新功能
+
+- **constraint-charter** **0.1.0**：把 Uncle Bob 式审计目标与数值门禁固化为版本化 `GATES.md`，并接入 pre-commit/CI
+- **huawei-cloud-cost-estimation** **3.2.0**：为长 `hcloud` 命令链增加有界渐进执行协议，同时保留完整批次 dry-run 与确认门禁（详见技能 changelog）
+
 ## 3.8.0 - 2026-07-14
 
 ### 新功能

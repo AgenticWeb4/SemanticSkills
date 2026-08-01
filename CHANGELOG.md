@@ -9,6 +9,13 @@ Monorepo **infrastructure** history. Each skill has its own changelog:
 | huawei-cloud-account-onboarding | [qa/huawei-cloud-account-onboarding/CHANGELOG.md](qa/huawei-cloud-account-onboarding/CHANGELOG.md) |
 | semantic-creator | [qa/semantic-creator/CHANGELOG.md](qa/semantic-creator/CHANGELOG.md) |
 
+## 3.9.0 - 2026-08-01
+
+### Features
+
+- **constraint-charter** **0.1.0**: add a skill that turns Uncle Bob-style audit goals and numeric gates into a versioned `GATES.md` contract wired to pre-commit/CI
+- **huawei-cloud-cost-estimation** **3.2.0**: add a bounded progressive-execution contract for long `hcloud` command chains while preserving complete-batch dry-run and confirmation gates (see skill changelog)
+
 ## 3.8.0 - 2026-07-14
 
 ### Features
