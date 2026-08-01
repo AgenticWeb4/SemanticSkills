@@ -57,7 +57,7 @@ skills:
     version: "0.5.1"
     agents: [cursor, claude-code, codex, openclaw]
     compatibility: No external tools or network; pure modeling + file generation; review report is self-contained HTML (inline CSS/JS, no CDN)
-    marketplaces: [skills-sh, skillsmp]
+    marketplaces: [skills-sh, skillsmp, clawhub]
     distribution: direct-skill
   - id: constraint-charter
     path: skills/constraint-charter

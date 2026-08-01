@@ -84,6 +84,10 @@ qa/semantic-creator/
 ./qa/semantic-creator/validate.sh
 ```
 
+## Marketplaces
+
+- ClawHub: `semantic-creator` 0.5.1
+
 ## Install
 
 ```bash
