@@ -9,6 +9,12 @@ Monorepo **infrastructure** history. Each skill has its own changelog:
 | huawei-cloud-account-onboarding | [qa/huawei-cloud-account-onboarding/CHANGELOG.md](qa/huawei-cloud-account-onboarding/CHANGELOG.md) |
 | semantic-creator | [qa/semantic-creator/CHANGELOG.md](qa/semantic-creator/CHANGELOG.md) |
 
+## 3.9.1 - 2026-08-01
+
+### Fixes
+
+- **huawei-cloud-cost-estimation** **3.2.1**: replace the dense Call Budget labels with two plain-language execution-pacing sentences while preserving command limits and safety gates
+
 ## 3.9.0 - 2026-08-01
 
 ### Features

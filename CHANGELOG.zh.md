@@ -9,6 +9,12 @@ Monorepo **基础设施**变更。各技能独立 changelog：
 | huawei-cloud-account-onboarding | [qa/huawei-cloud-account-onboarding/CHANGELOG.md](qa/huawei-cloud-account-onboarding/CHANGELOG.md) |
 | semantic-creator | [qa/semantic-creator/CHANGELOG.md](qa/semantic-creator/CHANGELOG.md) |
 
+## 3.9.1 - 2026-08-01
+
+### 修复
+
+- **huawei-cloud-cost-estimation** **3.2.1**：将密集的 Call Budget 标签改为两句易懂的执行节奏规则，保持命令限量与安全门禁不变
+
 ## 3.9.0 - 2026-08-01
 
 ### 新功能
