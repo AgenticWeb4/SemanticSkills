@@ -264,7 +264,7 @@
       "id": 20,
       "name": "resolve-obs-standard-100g-month",
       "prompt": "cn-north-4 OBS 标准存储 100G 一个月多少钱？",
-      "expected_output": "ListServiceResources→obs；ListResourceSpecs→obs；ListUsageTypes(--resource_type_code=obs)得size；ListOnDemandResourceRatings；usage_value 承载容量×时长；非 Duration/线性 resource_size。",
+      "expected_output": "Resources→Specs→UsageTypes(size)→Measure Resolve(um=10, uv=GB×小时)→OnDemand；非 Duration/容量槽17。",
       "expectations": [
         "Names hcloud BSS ListServiceResources before or with resource type resolution",
         "Uses resource_type=hws.resource.type.obs",
@@ -272,7 +272,9 @@
         "ListUsageTypes uses resource_type_code=hws.resource.type.obs",
         "Names hcloud BSS ListOnDemandResourceRatings (not ListRateOnPeriodDetail)",
         "Command includes usage_factor=size",
+        "Command includes usage_measure_id=10",
         "Does not use usage_factor=Duration for OBS storage capacity quote",
+        "Does not use usage_measure_id=17 for OBS storage capacity quote",
         "Does not use resource_size=100 with size_measure_id=17 for OBS standard storage"
       ],
       "files": []
@@ -312,11 +314,12 @@
       "id": 23,
       "name": "resolve-usage-types-filtered",
       "prompt": "OBS 标准存储 50G 华北四 估 30 天",
-      "expected_output": "ListUsageTypes 必须带 --resource_type_code；禁止无 filter 全表扫描。",
+      "expected_output": "ListUsageTypes 带 resource_type_code；Measure Resolve um=10；禁全表扫描。",
       "expectations": [
         "ListUsageTypes uses resource_type_code=hws.resource.type.obs",
         "Names hcloud BSS ListOnDemandResourceRatings (not ListRateOnPeriodDetail)",
         "Command includes usage_factor=size",
+        "Command includes usage_measure_id=10",
         "Does not invoke unfiltered ListUsageTypes without resource_type_code"
       ],
       "files": []
@@ -325,10 +328,11 @@
       "id": 24,
       "name": "resolve-obs-competitive-factor-pair",
       "prompt": "OBS 竞享标准存储 100G 一个月",
-      "expected_output": "竞享 spec 须配 competitive_size；错配 size 会 CBC.6006。",
+      "expected_output": "竞享 spec 配 competitive_size + um=10；错配 size 会 CBC.6006。",
       "expectations": [
         "Uses resource_spec=obs.competitive.share.storage or discloses competitive tier",
         "Command includes usage_factor=competitive_size",
+        "Command includes usage_measure_id=10",
         "Does not pair obs.competitive.share.storage with usage_factor=size",
         "Names hcloud BSS ListOnDemandResourceRatings (not ListRateOnPeriodDetail)"
       ],

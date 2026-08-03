@@ -2,6 +2,17 @@
 
 仅本技能变更。仓库级变更见 [../../CHANGELOG.zh.md](../../CHANGELOG.zh.md)。
 
+## 3.2.3 - 2026-08-03
+
+### 变更
+
+- 按需解析链补 Measure Resolve：UsageTypes 无 measure；分清用量槽/容量槽；因子族→`measure_type`/`usage_value` 编码；同名 sibling 仅回退一次
+- 压缩 `pricing/commands.md`（合并陷阱、缩短包月示例），覆盖容量 `uv=GB×小时`，禁止复合单位充用量槽
+
+### 新增
+
+- OBS 容量/竞享探针要求 `usage_measure_id=10`；grader 拒绝 OBS 误用 `usage_measure_id=17`
+
 ## 3.2.2 - 2026-08-03
 
 ### 变更

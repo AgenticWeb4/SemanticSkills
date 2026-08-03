@@ -40,8 +40,8 @@ facts:
       - { name: resource_spec,      type: string,  max_length: 400, dimension: Dim_ResourceSpec }
       - { name: region,             type: string,  max_length: 64, dimension: Dim_Region }
       - { name: usage_factor,       type: string,  max_length: 64, dimension: Dim_UsageType, notes: "ListUsageTypes.code；禁止默认 Duration" }
-      - { name: usage_value,        type: number, notes: "询价标量；容量型常写于此而非 resource_size" }
-      - { name: usage_measure_id,   type: integer, dimension: Dim_MeasureUnit, notes: "ListMeasureUnits；按 usage 语义对齐" }
+      - { name: usage_value,        type: number, notes: "用量槽标量；见 commands.md Measure Resolve" }
+      - { name: usage_measure_id,   type: integer, dimension: Dim_MeasureUnit, notes: "用量槽≠size_measure_id；见 Measure Resolve" }
       - { name: subscription_num,   type: integer, min: 1, max: 10000 }
       - { name: available_zone,     type: string, max_length: 64, dimension: Dim_AvailabilityZone, required: false, notes: "空/null = 不筛选" }
       - { name: resource_size,      type: integer, max: 214783647, required: conditional, condition: linear_product }
@@ -60,7 +60,7 @@ dimensions:
     source_operations: [BSS/ListUsageTypes]
     attributes: [code, name, resource_type_code, service_type_code]
     query_keys: [resource_type_code]
-    notes: 必带 --resource_type_code；接口不返回 measure_id，度量对齐见 commands.md。
+    notes: 必带 --resource_type_code；无 measure → Measure Resolve（commands.md）。
 
 evidence_boundary:
   - 字段必填以 references/pricing/commands.md 中 ListOnDemandResourceRatings contract 为唯一真源。

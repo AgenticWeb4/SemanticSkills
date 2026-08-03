@@ -2,18 +2,18 @@
 
 `huawei-cloud-cost-estimation` · **Huawei Cloud Cost Estimation & Controlled Provisioning — Quote, Create, Console-Guided Unsubscribe**
 
-Deterministic pre-order quotes via hcloud BSS (`ListServiceResources` → `ListResourceSpecs` → on-demand `ListUsageTypes` → period/on-demand RFQ) plus 74 controlled create operations. Small chains complete directly; larger chains stage 2–3 commands unless the user asks end-to-end. Creates require runtime `--help`, fee review, local `--dryrun`, and confirmation. Unsubscribe is console-guidance-only.
+Deterministic pre-order quotes via hcloud BSS (`ListServiceResources` → `ListResourceSpecs` → on-demand `ListUsageTypes` → `ListMeasureUnits`+Measure Resolve → period/on-demand RFQ) plus 74 controlled create operations. Small chains complete directly; larger chains stage 2–3 commands unless the user asks end-to-end. Creates require runtime `--help`, fee review, local `--dryrun`, and confirmation. Unsubscribe is console-guidance-only.
 
 > **华为社区版** · 社区维护，非华为云官方；结论以当次 hcloud 响应为准。
 
-**Version:** 3.2.2 · Changelog: [qa/huawei-cloud-cost-estimation/CHANGELOG.md](../../qa/huawei-cloud-cost-estimation/CHANGELOG.md) · 中文仓库说明：[README-CN.md](../../README-CN.md)
+**Version:** 3.2.3 · Changelog: [qa/huawei-cloud-cost-estimation/CHANGELOG.md](../../qa/huawei-cloud-cost-estimation/CHANGELOG.md) · 中文仓库说明：[README-CN.md](../../README-CN.md)
 
 ## What it does
 
 | Capability | Typical requests |
 | --- | --- |
 | Period / on-demand RFQ | 包年包月、按小时/按量多少钱；多产品分项加总 |
-| Spec & dimension lookup | `ListServiceResources` / `ListResourceSpecs` / 按需 `ListUsageTypes(--resource_type_code)` |
+| Spec & dimension lookup | `ListServiceResources` / `ListResourceSpecs` / 按需 `ListUsageTypes` / Measure Resolve |
 | Controlled create | 开通/购买白名单内资源（ECS/RDS/CCE/CloudIDE/WAF 等 74 个命令主体） |
 | Console-guided unsubscribe | 包年/包月前往费用中心核对退款与关联资源；按需前往云服务控制台自行删除 |
 | Out of scope | 历史账单/余额/对账 → 费用中心或只读账单 API；跨云；支付/续费/删除；对话中 AK/SK |

@@ -4,7 +4,7 @@ description: Generate Huawei Cloud pre-order price estimates, safely provision a
 compatibility: hcloud KooCLI 7.2+, IAM permissions matching requested read/write operations, outbound network; no agent auto-install
 metadata:
   author: ontology-of-everything
-  version: "3.2.2"
+  version: "3.2.3"
   openclaw:
     requires:
       bins: [hcloud]
@@ -37,8 +37,8 @@ metadata:
 1. **Parse** — 抽取四元组 `cloud_service_type / resource_type / region / resource_spec` + 周期或使用量；读 `references/pricing/semantic/catalog.yml` 路由 period / on-demand。
 2. **Clarify** — 缺 region/数量/周期或用量/线性 size，或类目模糊、多变种未定 → 停下一轮问完（2–4 候选）。仅 safe-default 缺失（OS=linux、AZ=空、`fee_installment_mode=NA`）→ 披露后继续。口语四元组确认，不暴露内部名。
 3. **Query** — 按 Execution Pace 与 `references/pricing/commands.md`：
-   `ListServiceResources` → `ListResourceSpecs` → 按需 `ListUsageTypes(--resource_type_code)` → 询价。
-   多候选则问；Specs 命中仍可能失败；禁止默认 Duration/小时、禁止套错线性 `resource_size`。
+   `ListServiceResources` → `ListResourceSpecs` → 按需 `ListUsageTypes(--resource_type_code)` → Measure Resolve → 询价。
+   多候选则问；Specs 命中仍可能失败；禁默认 Duration、禁容量槽/用量槽混用。
 4. **Verify & Present** — 分项加和=总价；币种/周期/数量对齐。分项 `[服务] [规格] [region] [数量×周期] = ¥<金额>` + 加总 + 「非最终账单」；默认官网价，有折扣才附折后。
 
 ## Lifecycle Create

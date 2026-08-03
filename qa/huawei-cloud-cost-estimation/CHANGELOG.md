@@ -2,6 +2,17 @@
 
 Skill-only history. Repository tooling changes: [../../CHANGELOG.md](../../CHANGELOG.md).
 
+## 3.2.3 - 2026-08-03
+
+### Changed
+
+- Extend on-demand resolve with Measure Resolve: UsageTypes has no measure; split usage vs size slots; map factor family → `measure_type` / `usage_value` encoding; one sibling fallback only
+- Densify `pricing/commands.md` (merge traps, trim period example) while covering capacity `uv=GB×hours` and forbidding composite units as usage slot
+
+### Added
+
+- Eval probes for `usage_measure_id=10` on OBS capacity / competitive factors; grader rejects OBS `usage_measure_id=17`
+
 ## 3.2.2 - 2026-08-03
 
 ### Changed

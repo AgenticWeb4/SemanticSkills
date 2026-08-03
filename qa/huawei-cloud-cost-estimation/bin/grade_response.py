@@ -270,6 +270,12 @@ def grade(expectations: list[str], text: str) -> dict:
             obs_ctx = bool(re.search(r"obs|对象存储", t, re.I))
             bad = obs_ctx and bool(re.search(r"usage_factor\s*=\s*Duration\b", t, re.I))
             add(e, not bad, "no Duration on OBS" if not bad else "wrong Duration on OBS")
+        elif "Does not use usage_measure_id=17 for OBS storage" in e:
+            cmd = "\n".join(ln for ln in t.splitlines() if "product_infos" in ln or ln.strip().startswith("hcloud"))
+            bad = bool(re.search(r"usage_measure_id\s*=\s*17\b", cmd)) and bool(
+                re.search(r"obs|对象存储|usage_factor\s*=\s*(size|competitive_size)", "\n".join([t, cmd]), re.I)
+            )
+            add(e, not bad, "no capacity-slot um on OBS" if not bad else "used usage_measure_id=17 on OBS")
         elif "Does not use resource_size=100 with size_measure_id=17 for OBS" in e:
             cmd = "\n".join(ln for ln in t.splitlines() if "product_infos" in ln or ln.strip().startswith("hcloud"))
             bad = bool(re.search(r"resource_size\s*=\s*100\b", cmd)) and bool(re.search(r"size_measure_id\s*=\s*17\b", cmd))
