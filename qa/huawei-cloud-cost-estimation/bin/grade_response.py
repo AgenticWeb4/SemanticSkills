@@ -47,7 +47,7 @@ def grade(expectations: list[str], text: str) -> dict:
         elif "charge_mode=1" in e:
             ok = bool(re.search(r"charge_mode\s*=\s*1\b", t))
             add(e, ok, "matched" if ok else "missing charge_mode=1")
-        elif "usage_factor=Duration" in e:
+        elif "usage_factor=Duration" in e and "Does not" not in e:
             ok = bool(re.search(r"usage_factor\s*=\s*Duration", t, re.I))
             add(e, ok, "matched" if ok else "missing usage_factor=Duration")
         elif "usage_value=24" in e:
@@ -62,10 +62,10 @@ def grade(expectations: list[str], text: str) -> dict:
         elif "usage_measure_id=10" in e:
             ok = bool(re.search(r"usage_measure_id\s*=\s*10\b", t))
             add(e, ok, "matched" if ok else "missing usage_measure_id=10")
-        elif "resource_size=100" in e:
+        elif "resource_size=100" in e and "Does not" not in e:
             ok = bool(re.search(r"resource_size\s*=\s*100\b", t))
             add(e, ok, "matched" if ok else "missing resource_size=100")
-        elif "size_measure_id=17" in e:
+        elif "size_measure_id=17" in e and "Does not" not in e:
             ok = bool(re.search(r"size_measure_id\s*=\s*17\b", t))
             add(e, ok, "matched" if ok else "missing size_measure_id=17")
         elif "resource_spec=19_bgp" in e:
@@ -108,8 +108,8 @@ def grade(expectations: list[str], text: str) -> dict:
             ok = asks or not has_price
             add(e, ok, "clarify or no final price" if ok else "gave price without clarify")
         elif "Does not invoke hcloud" in e or "Does not show hcloud" in e:
-            ok = "hcloud" not in lower and "listrate" not in lower.replace("_", "")
-            add(e, ok, "no hcloud call" if ok else "mentioned hcloud/BSS quote API")
+            ok = not bool(re.search(r"hcloud BSS (ListRateOnPeriodDetail|ListOnDemandResourceRatings)", t, re.I))
+            add(e, ok, "no hcloud quote API" if ok else "mentioned hcloud/BSS quote API")
         elif "Refuses to place order" in e:
             ok = bool(re.search(r"无法|不能|拒绝|不下单|无法代|不负责下单", t))
             add(e, ok, "refused order" if ok else "no clear order refusal")
@@ -231,6 +231,85 @@ def grade(expectations: list[str], text: str) -> dict:
             )
             ok = not invented
             add(e, ok, "no invented discount amount" if ok else "may have invented discount")
+        elif "ListServiceResources" in e and ("before" in e or "resolution" in e):
+            ok = "listserviceresources" in lower.replace("_", "")
+            add(e, ok, "found ListServiceResources" if ok else "missing ListServiceResources")
+        elif "resource_type=hws.resource.type.obs" in e:
+            ok = "hws.resource.type.obs" in t
+            add(e, ok, "obs resource type" if ok else "missing hws.resource.type.obs")
+        elif "resource_type=hws.resource.type.rds.vm" in e and "Does not use" not in e:
+            ok = "hws.resource.type.rds.vm" in t
+            add(e, ok, "rds.vm type" if ok else "missing rds.vm")
+        elif "Does not use resource_type=hws.resource.type.rds.instance" in e:
+            bad = "hws.resource.type.rds.instance" in t and "does not" not in lower[: t.find("rds.instance") if "rds.instance" in t else 0]
+            ok = "hws.resource.type.rds.instance" not in t or bool(re.search(r"不.*rds\.instance|勿.*instance|非.*instance", t))
+            add(e, ok, "avoided rds.instance" if ok else "used rds.instance")
+        elif "resource_type=hws.resource.type.vm" in e and "Does not" not in e:
+            ok = "hws.resource.type.vm" in t
+            add(e, ok, "ec2 vm type" if ok else "missing hws.resource.type.vm")
+        elif "ListUsageTypes uses resource_type_code=" in e:
+            ok = bool(re.search(r"resource_type_code\s*=\s*hws\.resource\.type\.", t))
+            add(e, ok, "filtered ListUsageTypes" if ok else "missing resource_type_code filter")
+        elif "Does not invoke unfiltered ListUsageTypes" in e:
+            bad = bool(re.search(r"ListUsageTypes(?![^\n]*resource_type_code)", t, re.I)) and "7875" in t
+            ok = "resource_type_code" in t or "listserviceresources" in lower.replace("_", "")
+            add(e, ok, "usage types filtered" if ok else "may have unfiltered usage scan")
+        elif "usage_factor=size" in e and "Does not" not in e and "OBS line" not in e:
+            ok = bool(re.search(r"usage_factor\s*=\s*size\b", t, re.I))
+            add(e, ok, "usage_factor=size" if ok else "missing usage_factor=size")
+        elif "usage_factor=size for OBS line" in e:
+            ok = bool(re.search(r"usage_factor\s*=\s*size\b", t, re.I)) and ("obs" in lower or "对象存储" in t)
+            add(e, ok, "OBS size factor" if ok else "missing OBS size line")
+        elif "usage_factor=Duration for ECS line" in e:
+            ok = bool(re.search(r"usage_factor\s*=\s*Duration\b", t, re.I)) and ("ecs" in lower or "弹性云" in t)
+            add(e, ok, "ECS Duration factor" if ok else "missing ECS Duration line")
+        elif "usage_factor=competitive_size" in e:
+            ok = bool(re.search(r"usage_factor\s*=\s*competitive_size\b", t, re.I))
+            add(e, ok, "competitive_size" if ok else "missing competitive_size")
+        elif "Does not use usage_factor=Duration for OBS storage" in e:
+            obs_ctx = bool(re.search(r"obs|对象存储", t, re.I))
+            bad = obs_ctx and bool(re.search(r"usage_factor\s*=\s*Duration\b", t, re.I))
+            add(e, not bad, "no Duration on OBS" if not bad else "wrong Duration on OBS")
+        elif "Does not use resource_size=100 with size_measure_id=17 for OBS" in e:
+            cmd = "\n".join(ln for ln in t.splitlines() if "product_infos" in ln or ln.strip().startswith("hcloud"))
+            bad = bool(re.search(r"resource_size\s*=\s*100\b", cmd)) and bool(re.search(r"size_measure_id\s*=\s*17\b", cmd))
+            add(e, not bad, "no EVS-linear OBS pairing" if not bad else "misapplied linear OBS size")
+        elif "Does not pair obs.competitive.share.storage with usage_factor=size" in e:
+            cmd = "\n".join(ln for ln in t.splitlines() if "product_infos" in ln or ln.strip().startswith("hcloud"))
+            bad = bool(re.search(r"obs\.competitive\.share\.storage", cmd)) and bool(re.search(r"usage_factor\s*=\s*size\b", cmd, re.I))
+            add(e, not bad, "competitive factor pairing ok" if not bad else "wrong competitive/size pair")
+        elif "resource_size=200" in e:
+            ok = bool(re.search(r"resource_size\s*=\s*200\b", t))
+            add(e, ok, "resource_size=200" if ok else "missing resource_size=200")
+        elif "Does not use usage_factor=size for EVS volume period" in e:
+            cmd = "\n".join(ln for ln in t.splitlines() if "product_infos" in ln or ln.strip().startswith("hcloud"))
+            bad = bool(re.search(r"(ebs|volume)", cmd, re.I)) and bool(re.search(r"usage_factor\s*=\s*size\b", cmd, re.I))
+            add(e, not bad, "no size factor on EVS period" if not bad else "wrong size factor on EVS")
+        elif "Single ListOnDemandResourceRatings call with two product_infos" in e:
+            pic = len(set(re.findall(r"product_infos\.(\d+)", t)))
+            has_ondemand = "listondemandresourceratings" in lower.replace("_", "")
+            ok = has_ondemand and pic >= 2
+            add(e, ok, f"ondemand lines={pic}")
+        elif "Includes period_type=2 and period_num=1" in e:
+            ok = bool(re.search(r"period_type\s*=\s*2\b", t)) and bool(re.search(r"period_num\s*=\s*1\b", t))
+            add(e, ok, "period 1 month" if ok else "missing period_type=2 period_num=1")
+        elif "States OBS standard storage period subscribe may fail" in e:
+            ok = bool(re.search(r"6006|不可.*包月|按需|容量|资源包|product not found|无法.*包周期", t, re.I))
+            add(e, ok, "period fallback stated" if ok else "missing OBS period fallback")
+        elif "Does not fabricate a period package price after CBC.6006" in e:
+            invented = bool(re.search(r"包月.*¥\s*[\d,]+|period.*¥\s*[\d,]+", t)) and bool(re.search(r"6006|not find product", t, re.I))
+            ok = not invented
+            add(e, ok, "no fabricated period price" if ok else "fabricated price after failure")
+        elif "Names on-demand capacity path or resource package as alternative" in e:
+            ok = bool(re.search(r"按需|容量|资源包|ListOnDemandResourceRatings|usage_factor=size", t, re.I))
+            add(e, ok, "on-demand alternative" if ok else "missing alternative path")
+        elif "Does not use ListRateOnPeriodDetail result as final price when product not found" in e:
+            bad = bool(re.search(r"ListRateOnPeriodDetail", t)) and bool(re.search(r"总价\s*[:：]?\s*¥?\s*[\d,]+", t)) and bool(re.search(r"6006|not find", t, re.I))
+            ok = not bad
+            add(e, ok, "no final price after failure" if ok else "quoted after product not found")
+        elif "usage_value=720" in e:
+            ok = bool(re.search(r"usage_value\s*=\s*720\b", t))
+            add(e, ok, "usage_value=720" if ok else "missing usage_value=720")
         elif "12_sbgp" in e:
             ok = "12_sbgp" in t
             add(e, ok, "found 12_sbgp" if ok else "missing 12_sbgp")
@@ -243,6 +322,9 @@ def grade(expectations: list[str], text: str) -> dict:
         elif "on-demand" in e.lower() or "按需" in e:
             ok = bool(re.search(r"on-?demand|按需", t, re.I))
             add(e, ok, "on-demand label" if ok else "missing on-demand label")
+        elif "Asks for missing never-assume fields" in e:
+            ok = bool(re.search(r"[?？]", t)) and bool(re.search(r"region|区域|引擎|单机|主备|包月", t, re.I))
+            add(e, ok, "clarify fields asked" if ok else "missing clarify ask")
         elif "Offers 2-4 candidate" in e:
             opts = len(re.findall(r"(RDS|GaussDB|DCS|Redis|MySQL|PostgreSQL|数据库)", t, re.I))
             ok = opts >= 2

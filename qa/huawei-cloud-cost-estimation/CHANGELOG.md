@@ -2,6 +2,18 @@
 
 Skill-only history. Repository tooling changes: [../../CHANGELOG.md](../../CHANGELOG.md).
 
+## 3.2.2 - 2026-08-03
+
+### Changed
+
+- Pricing resolve chain is now explicit: `ListServiceResources` → `ListResourceSpecs` → (on-demand) `ListUsageTypes --resource_type_code` → quote; never default `Duration`/hour
+- Treat Specs hits as non-guaranteed quotes (`CBC.6006`/`CBC.6050` fall back once by type/factor/measure); limit `resource_size` linear pairing to volume/bandwidth only
+- Densify `pricing/commands.md` (~remove duplicate single-product examples) and trim false `Dim_UsageType.measure_type`
+
+### Added
+
+- Evals #20–29: v3.2.2 resolve-chain probes (OBS/RDS/ECS/EVS clarify, usage-type filter, competitive factor pairing, period fallback); grader branches in `grade_response.py`
+
 ## 3.2.1 - 2026-08-01
 
 ### Changed

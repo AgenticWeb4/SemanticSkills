@@ -2,6 +2,18 @@
 
 仅本技能变更。仓库级变更见 [../../CHANGELOG.zh.md](../../CHANGELOG.zh.md)。
 
+## 3.2.2 - 2026-08-03
+
+### 变更
+
+- 询价解析链写死：`ListServiceResources` → `ListResourceSpecs` →（按需）`ListUsageTypes --resource_type_code` → 询价；禁止默认 Duration/小时
+- Specs 有行不保证可询价（`CBC.6006`/`CBC.6050` 按 type/factor/measure 回退一次）；`resource_size` 线性配对仅限云盘/带宽
+- 压缩 `pricing/commands.md`（去掉重复单品示例），删除伪字段 `Dim_UsageType.measure_type`
+
+### 新增
+
+- Eval #20–29：v3.2.2 解析链探针（OBS/RDS/ECS/EVS、Clarify、UsageTypes 过滤、竞享 factor 配对、包月回退）；`grade_response.py` 对应分支
+
 ## 3.2.1 - 2026-08-01
 
 ### 变更

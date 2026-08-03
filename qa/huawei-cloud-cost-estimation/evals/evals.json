@@ -259,6 +259,148 @@
         "Preserves full-batch --dryrun and explicit confirmation before any real create"
       ],
       "files": []
+    },
+    {
+      "id": 20,
+      "name": "resolve-obs-standard-100g-month",
+      "prompt": "cn-north-4 OBS 标准存储 100G 一个月多少钱？",
+      "expected_output": "ListServiceResources→obs；ListResourceSpecs→obs；ListUsageTypes(--resource_type_code=obs)得size；ListOnDemandResourceRatings；usage_value 承载容量×时长；非 Duration/线性 resource_size。",
+      "expectations": [
+        "Names hcloud BSS ListServiceResources before or with resource type resolution",
+        "Uses resource_type=hws.resource.type.obs",
+        "Resolves resource_spec via BSS ListResourceSpecs before quoting (not from memory or product docs)",
+        "ListUsageTypes uses resource_type_code=hws.resource.type.obs",
+        "Names hcloud BSS ListOnDemandResourceRatings (not ListRateOnPeriodDetail)",
+        "Command includes usage_factor=size",
+        "Does not use usage_factor=Duration for OBS storage capacity quote",
+        "Does not use resource_size=100 with size_measure_id=17 for OBS standard storage"
+      ],
+      "files": []
+    },
+    {
+      "id": 21,
+      "name": "resolve-rds-mysql-ha-ondemand",
+      "prompt": "北京 cn-north-4，RDS MySQL 2核4G 主备，按需跑 720 小时多少钱？",
+      "expected_output": "resource_type=rds.vm；Specs 选 rds.mysql.n1.large.2.ha；UsageTypes 得 Duration；ListOnDemandResourceRatings。",
+      "expectations": [
+        "Uses resource_type=hws.resource.type.rds.vm",
+        "Does not use resource_type=hws.resource.type.rds.instance for RDS VM quote",
+        "Resolves resource_spec via BSS ListResourceSpecs before quoting (not from memory or product docs)",
+        "ListUsageTypes uses resource_type_code=hws.resource.type.rds.vm",
+        "Names hcloud BSS ListOnDemandResourceRatings (not ListRateOnPeriodDetail)",
+        "Command includes usage_factor=Duration",
+        "Command includes usage_value=720",
+        "Command includes usage_measure_id=4"
+      ],
+      "files": []
+    },
+    {
+      "id": 22,
+      "name": "resolve-rds-mysql-period-month",
+      "prompt": "同上规格 RDS MySQL 2核4G 主备，包月 1 个月多少钱？",
+      "expected_output": "rds.vm + charge_mode=1 Specs + ListRateOnPeriodDetail period_type=2 period_num=1。",
+      "expectations": [
+        "Uses resource_type=hws.resource.type.rds.vm",
+        "Resolves resource_spec via BSS ListResourceSpecs before quoting (not from memory or product docs)",
+        "ListResourceSpecs uses charge_mode=1 aligned with period quote",
+        "Uses ListRateOnPeriodDetail not ListOnDemandResourceRatings",
+        "Includes period_type=2 and period_num=1 (or equivalent 1 month)"
+      ],
+      "files": []
+    },
+    {
+      "id": 23,
+      "name": "resolve-usage-types-filtered",
+      "prompt": "OBS 标准存储 50G 华北四 估 30 天",
+      "expected_output": "ListUsageTypes 必须带 --resource_type_code；禁止无 filter 全表扫描。",
+      "expectations": [
+        "ListUsageTypes uses resource_type_code=hws.resource.type.obs",
+        "Names hcloud BSS ListOnDemandResourceRatings (not ListRateOnPeriodDetail)",
+        "Command includes usage_factor=size",
+        "Does not invoke unfiltered ListUsageTypes without resource_type_code"
+      ],
+      "files": []
+    },
+    {
+      "id": 24,
+      "name": "resolve-obs-competitive-factor-pair",
+      "prompt": "OBS 竞享标准存储 100G 一个月",
+      "expected_output": "竞享 spec 须配 competitive_size；错配 size 会 CBC.6006。",
+      "expectations": [
+        "Uses resource_spec=obs.competitive.share.storage or discloses competitive tier",
+        "Command includes usage_factor=competitive_size",
+        "Does not pair obs.competitive.share.storage with usage_factor=size",
+        "Names hcloud BSS ListOnDemandResourceRatings (not ListRateOnPeriodDetail)"
+      ],
+      "files": []
+    },
+    {
+      "id": 25,
+      "name": "resolve-clarify-database-engine",
+      "prompt": "华为云数据库 2核4G 包月多少钱？",
+      "expected_output": "缺 region/引擎/部署形态 → Clarify；不出价。",
+      "expectations": [
+        "Does not run or show a final numeric quote without clarification",
+        "Offers 2-4 candidate database options with brief guidance",
+        "Asks for missing never-assume fields (region, spec, quantity, or period) in one round",
+        "Does not invoke hcloud BSS ListRateOnPeriodDetail or ListOnDemandResourceRatings"
+      ],
+      "files": []
+    },
+    {
+      "id": 26,
+      "name": "resolve-ecs-chain-intact",
+      "prompt": "ECS c6.large.2 北京 包年 1 台 1 年",
+      "expected_output": "ListServiceResources(ec2)→vm；ListResourceSpecs；ListRateOnPeriodDetail 包年。",
+      "expectations": [
+        "Names hcloud BSS ListServiceResources before or with resource type resolution",
+        "Uses resource_type=hws.resource.type.vm",
+        "Resolves resource_spec via BSS ListResourceSpecs before quoting (not from memory or product docs)",
+        "Uses ListRateOnPeriodDetail not ListOnDemandResourceRatings",
+        "Includes period_type=3 or explicit 1-year period for 包年",
+        "ECS resource_spec includes .linux suffix or explicitly discloses default OS linux"
+      ],
+      "files": []
+    },
+    {
+      "id": 27,
+      "name": "resolve-evs-linear-boundary",
+      "prompt": "EVS GPSSD 200GB 包月 1 个月 cn-north-4",
+      "expected_output": "线性三类：resource_size=200 size_measure_id=17；period 询价。",
+      "expectations": [
+        "Command includes resource_size=200",
+        "Command includes size_measure_id=17",
+        "Uses ListRateOnPeriodDetail for period pricing",
+        "Does not use usage_factor=size for EVS volume period quote"
+      ],
+      "files": []
+    },
+    {
+      "id": 28,
+      "name": "resolve-multi-obs-ecs-ondemand",
+      "prompt": "cn-north-4：OBS 标准 100G 存 30 天 + ECS c6.large.2 按需 720 小时，分开报价",
+      "expected_output": "单次 ListOnDemandResourceRatings 两行；OBS 用 size，ECS 用 Duration。",
+      "expectations": [
+        "Names hcloud BSS ListOnDemandResourceRatings (not ListRateOnPeriodDetail)",
+        "Single ListOnDemandResourceRatings call with two product_infos lines (or .1 .2)",
+        "Command includes usage_factor=size for OBS line",
+        "Command includes usage_factor=Duration for ECS line",
+        "Shows line items and a total (sum or official_website_amount)"
+      ],
+      "files": []
+    },
+    {
+      "id": 29,
+      "name": "resolve-obs-period-fallback",
+      "prompt": "OBS 标准存储 100G 包月买 1 个月",
+      "expected_output": "period 对 obs spec 常 CBC.6006；改说明按需容量/资源包，不臆造包月价。",
+      "expectations": [
+        "States OBS standard storage period subscribe may fail or is not available for spec obs",
+        "Does not fabricate a period package price after CBC.6006 or product not found",
+        "Names on-demand capacity path or resource package as alternative",
+        "Does not use ListRateOnPeriodDetail result as final price when product not found"
+      ],
+      "files": []
     }
   ]
 }
