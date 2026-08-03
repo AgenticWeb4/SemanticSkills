@@ -9,6 +9,12 @@ Monorepo **infrastructure** history. Each skill has its own changelog:
 | huawei-cloud-account-onboarding | [qa/huawei-cloud-account-onboarding/CHANGELOG.md](qa/huawei-cloud-account-onboarding/CHANGELOG.md) |
 | semantic-creator | [qa/semantic-creator/CHANGELOG.md](qa/semantic-creator/CHANGELOG.md) |
 
+## 3.9.3 - 2026-08-03
+
+### Fixes
+
+- **huawei-cloud-cost-estimation** **3.2.3**: add Measure Resolve after filtered `ListUsageTypes` (usage vs size slots, factor-family → measure/`usage_value`); densify pricing commands; probe OBS `usage_measure_id=10`
+
 ## 3.9.2 - 2026-08-03
 
 ### Fixes

@@ -9,6 +9,12 @@ Monorepo **基础设施**变更。各技能独立 changelog：
 | huawei-cloud-account-onboarding | [qa/huawei-cloud-account-onboarding/CHANGELOG.md](qa/huawei-cloud-account-onboarding/CHANGELOG.md) |
 | semantic-creator | [qa/semantic-creator/CHANGELOG.md](qa/semantic-creator/CHANGELOG.md) |
 
+## 3.9.3 - 2026-08-03
+
+### 修复
+
+- **huawei-cloud-cost-estimation** **3.2.3**：在过滤后的 `ListUsageTypes` 之后补 Measure Resolve（用量槽/容量槽、因子族→度量/`usage_value`）；压缩 pricing commands；OBS 探针要求 `usage_measure_id=10`
+
 ## 3.9.2 - 2026-08-03
 
 ### 修复
