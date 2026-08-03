@@ -9,6 +9,12 @@ Monorepo **基础设施**变更。各技能独立 changelog：
 | huawei-cloud-account-onboarding | [qa/huawei-cloud-account-onboarding/CHANGELOG.md](qa/huawei-cloud-account-onboarding/CHANGELOG.md) |
 | semantic-creator | [qa/semantic-creator/CHANGELOG.md](qa/semantic-creator/CHANGELOG.md) |
 
+## 3.9.2 - 2026-08-03
+
+### 修复
+
+- **huawei-cloud-cost-estimation** **3.2.2**：询价解析链写死（`ListServiceResources` → `ListResourceSpecs` → 带 filter 的 `ListUsageTypes` → 询价）；禁止默认 Duration/小时；新增 eval #20–29 与 OBS/RDS 解析探针 grader 分支
+
 ## 3.9.1 - 2026-08-01
 
 ### 修复

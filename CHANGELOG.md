@@ -9,6 +9,12 @@ Monorepo **infrastructure** history. Each skill has its own changelog:
 | huawei-cloud-account-onboarding | [qa/huawei-cloud-account-onboarding/CHANGELOG.md](qa/huawei-cloud-account-onboarding/CHANGELOG.md) |
 | semantic-creator | [qa/semantic-creator/CHANGELOG.md](qa/semantic-creator/CHANGELOG.md) |
 
+## 3.9.2 - 2026-08-03
+
+### Fixes
+
+- **huawei-cloud-cost-estimation** **3.2.2**: make the pricing resolve chain explicit (`ListServiceResources` → `ListResourceSpecs` → filtered `ListUsageTypes` → quote); stop defaulting Duration/hour; add evals #20–29 and grader branches for OBS/RDS resolve probes
+
 ## 3.9.1 - 2026-08-01
 
 ### Fixes
