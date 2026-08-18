@@ -60,6 +60,20 @@ skills:
     marketplaces: [skills-sh, skillsmp, clawhub]
     distribution: direct-skill
     clawhub_license: MIT-0 on ClawHub; repository source remains Apache-2.0
+  - id: sce-creator
+    path: skills/sce-creator
+    qa: qa/sce-creator
+    display_name: "SCE Creator — Scene, Concept, Entity Extract"
+    display_name_zh: "场景-概念-实体萃取"
+    domain: meta
+    subdomains: [knowledge-extraction, ontology, sce]
+    summary: Two-round extract of callable scenes, concepts, and entities from source text—skeleton first with human confirm, then IPO/decompose/assemble and eight relation types; concept is the hub
+    summary_zh: 两轮从原文萃取可调用的场景、概念与实体：先扫骨架并确认，再回填 IPO/分解/组装与八种关系；概念是中枢
+    version: "0.1.0"
+    agents: [cursor, claude-code, codex, openclaw]
+    compatibility: No external tools or network; writes three YAML files plus a round-1 progress note
+    marketplaces: []
+    distribution: direct-skill
   - id: constraint-charter
     path: skills/constraint-charter
     qa: qa/constraint-charter
