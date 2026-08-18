@@ -9,6 +9,12 @@ Monorepo **基础设施**变更。各技能独立 changelog：
 | huawei-cloud-account-onboarding | [qa/huawei-cloud-account-onboarding/CHANGELOG.md](qa/huawei-cloud-account-onboarding/CHANGELOG.md) |
 | semantic-creator | [qa/semantic-creator/CHANGELOG.md](qa/semantic-creator/CHANGELOG.md) |
 
+## 3.10.0 - 2026-08-18
+
+### 新功能
+
+- **sce-creator** **0.1.0**：新增两轮萃取技能，从原文提取可调用的场景、概念与实体（详见技能 changelog）
+
 ## 3.9.3 - 2026-08-03
 
 ### 修复

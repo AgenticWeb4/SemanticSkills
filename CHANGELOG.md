@@ -9,6 +9,12 @@ Monorepo **infrastructure** history. Each skill has its own changelog:
 | huawei-cloud-account-onboarding | [qa/huawei-cloud-account-onboarding/CHANGELOG.md](qa/huawei-cloud-account-onboarding/CHANGELOG.md) |
 | semantic-creator | [qa/semantic-creator/CHANGELOG.md](qa/semantic-creator/CHANGELOG.md) |
 
+## 3.10.0 - 2026-08-18
+
+### Features
+
+- **sce-creator** **0.1.0**: add a two-round skill that extracts callable scenes, concepts, and entities from source text (see skill changelog)
+
 ## 3.9.3 - 2026-08-03
 
 ### Fixes
