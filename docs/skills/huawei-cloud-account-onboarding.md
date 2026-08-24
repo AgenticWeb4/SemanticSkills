@@ -1,22 +1,24 @@
-# 华为云账号开通 · 实名认证引导
+# 华为云账号开通 · 人脸扫码实名认证
 
-`huawei-cloud-account-onboarding` · **Huawei Cloud Account Onboarding — Real-Name Verification via QR (Mock)**
+`huawei-cloud-account-onboarding` · **Huawei Cloud Account Onboarding — Real-Name Verification via Face-Scan QR**
 
-Guides the user through Huawei Cloud real-name verification (实名认证) with a Feishu-style QR flow: check account status → render a terminal QR pointing to a LAN H5 page → the user scans and confirms on their phone → poll every 3 seconds until approved / rejected / expired. Currently a **local mock**; the API shape follows the industry-standard create-session/poll pattern so the base URL can be swapped for a real endpoint later.
+Answers and resolves one question: **can this Huawei Cloud account buy anything yet?** The skill checks `verified_status` over read-only BSS, and when the account is unverified it fetches the face-auth QR address, renders it in the terminal for the user to scan on their phone, then polls until verification lands. Read-only throughout: it never submits, changes or reviews an authentication, and never touches identity materials.
 
-> **华为社区版** · 社区维护，非华为云官方；当前为本地 mock 演示，不产生真实华为云实名记录。
+> **华为社区版** · 社区维护，非华为云官方；结论以当次 hcloud/BSS 响应为准。
 
-**Version:** 0.1.0 · Changelog: [qa/huawei-cloud-account-onboarding/CHANGELOG.md](../../qa/huawei-cloud-account-onboarding/CHANGELOG.md)
+**Version:** 1.0.0 · Changelog: [qa/huawei-cloud-account-onboarding/CHANGELOG.md](../../qa/huawei-cloud-account-onboarding/CHANGELOG.md)
 
 ## What it does
 
 | Capability | Behavior |
 | --- | --- |
-| Account status check | `GET /v1/customers/me/verification-status`; verified accounts short-circuit with "无需重复认证" |
-| QR generation | `create-verification.js` renders a colored-frame, black/white-module QR in the terminal (phone must share the machine's WiFi) |
-| Status polling | `poll-verification.js` polls every 3s: pending → scanned（提示手机完成）→ approved / rejected / expired; exit codes 0/2/3/4 |
-| Expiry handling | QR TTL 180s (pending only; scanned never expires); on expiry the agent asks before regenerating |
-| Out of scope | Real ID documents / credentials in chat; verifying on the user's behalf; non-Huawei-Cloud identity flows |
+| Status check | `hcloud BSS ShowRealNameAuthStatus` → `verified_status` (`-1` 未实名 / `0` 审核中 / `1` 不通过 / `2` 已实名) and `verified_type` (`0` 个人 / `1` 企业) |
+| QR fetch | `hcloud BSS ShowRealNameAuthQrCode` → `qr_code_url`, single-use, void after 10 minutes; fetched only when unverified **and** the user has their phone at hand |
+| Terminal render | `scripts/render-qr.ts` draws a scannable half-block QR with the single-use warning and a fallback URL |
+| Polling | `--cli-waiter` on `verified_status` to `2` (interval 5s, timeout 600s), then one confirming re-read |
+| Gate ownership | The QR command does **not** validate verification state — it returns a usable code even for verified accounts — so the skill checks status first |
+| Surface | The payload speaks `hcloud` commands only; no raw OpenAPI paths, HTTP verbs or auth headers appear in the skill |
+| Out of scope | Enterprise / certificate / bank-card / change channels (console-only), review comments, ID or credential intake, any write operation, non-Huawei-Cloud KYC |
 
 ## Runtime bundle (install payload)
 
@@ -24,38 +26,93 @@ Guides the user through Huawei Cloud real-name verification (实名认证) with 
 skills/huawei-cloud-account-onboarding/
 ├── SKILL.md
 ├── references/
-│   └── api-contract.md
+│   ├── concepts.md          # entities, state machine, channel boundary
+│   └── commands.md          # operation contracts, fields, enums, templates
 └── scripts/
-    ├── mock-server.js            # create/poll/account-status endpoints + H5 page
-    ├── create-verification.js    # terminal QR client
-    ├── poll-verification.js      # 3s polling client
-    └── package.json              # dep: qrcode (npm install at first use)
+    ├── render-qr.ts         # the only script: pure terminal QR renderer
+    └── package.json         # qrcode + tsx (npm install at first use)
 ```
 
 No `evals/`, `qa/`, or `*-workspace/` under `skills/`; `node_modules/` is installed locally and never committed.
 
+## SKILL.md structure
+
+SKILL.md is kept as a compact entry point (~15 lines of body); the detail lives in `references/`.
+
+| Section | Role |
+| --- | --- |
+| 三步 | 查状态 → 递二维码 → 盯落地, with the gate that the QR command does not self-validate |
+| 红线 | Read-only · no material intake · no proxy verification · face-scan channel only |
+| References | Where to read entities, commands and the renderer |
+
 ## In-skill flow
 
 ```text
-User needs real-name verification
+用户提到华为云实名认证
      │
      ▼
-Step 0 · mock server up? (healthz, start if not)
+门禁 · 是当前 hcloud profile 的华为云账号？profile 已配置？
      │
      ▼
-Step 1 · account status ── verified ──> done, no QR
-     │ unverified
-     ▼
-Step 2 · create session + terminal QR (TTL 180s)
-     │
-     ▼
-Step 3 · poll every 3s ──> approved(0) | rejected(2) | expired(3, ask to regenerate)
+ShowRealNameAuthStatus
+     ├─ 2  已实名 ──> 报状态与认证类型，结束（不取码）
+     ├─ 0  审核中 ──> 告知等待，不重复取码
+     ├─ 1  不通过 ──> 控制台「账号中心 → 实名认证」看审核意见
+     └─ -1 未实名
+            │ 确认用户此刻能拿手机
+            ▼
+     ShowRealNameAuthQrCode ──> render-qr.ts ──> 用户手机扫码 + 活体
+            │
+            ▼
+     --cli-waiter 至 verified_status=2 ──> 落地：恭喜 | 超时：先问再重取
 ```
 
-## QA
+## Safety
+
+The QR address carries a one-time `ticket`. It is rendered for the current user only — never written to a file or log, never forwarded to another person or device. Proxy scanning defeats liveness verification and risks Huawei Cloud freezing the account. ID numbers, document photos, bank cards and SMS codes are refused on sight; the three-step flow needs none of them.
+
+## QA layout
+
+```text
+qa/huawei-cloud-account-onboarding/
+├── validate.sh
+├── VERSION · CHANGELOG.md
+├── skillcheck.toml · .markdownlint.json
+├── evals/evals.json            # 11 cases
+├── assertions/README.md
+└── fixtures/ops_contracts.yml  # cross-layer operation contract
+```
 
 ```bash
 ./qa/huawei-cloud-account-onboarding/validate.sh
 ```
 
-Gate = layout purity + version sync + script syntax & end-to-end smoke (create → scan → approve → poll → account flips verified) + skills-ref + markdownlint + skillcheck.
+Gate = layout purity (including stale-mock regression) + version sync across `qa/VERSION`, `SKILL.md`, `docs/catalog.yml` and this page + `ops_contracts.yml` ↔ `commands.md` cross-layer check + script purity/render/exit-code smoke + skills-ref + markdownlint + skillcheck. Real BSS calls run only when `HUAWEICLOUD_ACCOUNT_ONBOARDING_REAL=1`.
+
+## Install
+
+```bash
+npx skills add ontology-of-everything/SemanticSkills/skills/huawei-cloud-account-onboarding
+cd skills/huawei-cloud-account-onboarding/scripts && npm install
+```
+
+Requires `hcloud` (KooCLI 7.2+) with a profile configured by the user (`hcloud configure set`) on the **main account** — IAM sub-users cannot call these operations. The agent never installs the CLI or writes credentials.
+
+## Marketplaces
+
+- [ClawHub](https://clawhub.ai/) — publish from `skills/huawei-cloud-account-onboarding/` after `./qa/huawei-cloud-account-onboarding/validate.sh`
+
+ClawHub publish (only after explicit release approval):
+
+```bash
+# Use absolute path to the skill folder (relative ./skills/... may fail on some CLI versions)
+clawhub skill publish "$PWD/skills/huawei-cloud-account-onboarding" \
+  --slug huawei-cloud-account-onboarding \
+  --name "Huawei Cloud Account Onboarding — Real-Name Verification via Face-Scan QR" \
+  --version <semver> \
+  --changelog "<semver>: rewrite onto the real BSS face-scan commands; terminal QR renderer; waiter polling; mock server removed" \
+  --clawscan-note "Huawei Cloud BSS read-only, two Show operations only (ShowRealNameAuthStatus, ShowRealNameAuthQrCode). Face-scan channel only; refuses ID/document/bank-card/SMS intake, refuses all real-name write operations, routes enterprise and certificate channels to the console; agent must not install hcloud or write credentials; the single script renders a QR string and performs no I/O" \
+  --tags latest
+```
+
+ClawHub skill bundle is **MIT-0**; repository source remains **Apache-2.0**. Installable `SKILL.md` must not declare a conflicting `license` in frontmatter.

@@ -67,6 +67,7 @@ SemanticSkills/
 | --- | --- | --- | --- |
 | `huawei-cloud-billing-scout` | 2.3.8 | **华为云 · 花多少为何扣 · 只读对账** — KooCLI BSS 一页简报 | [详情](docs/skills/huawei-cloud-billing-scout.md) · [changelog](qa/huawei-cloud-billing-scout/CHANGELOG.zh.md) |
 | `huawei-cloud-cost-estimation` | 3.2.1 | **华为云成本估算与受控开通** — 大任务分轮询价与白名单资源创建 | [详情](docs/skills/huawei-cloud-cost-estimation.md) · [changelog](qa/huawei-cloud-cost-estimation/CHANGELOG.zh.md) |
+| `huawei-cloud-account-onboarding` | 1.0.0 | **华为云账号开通 · 实名认证引导** — KooCLI 只读查状态 + 人脸扫码引导 | [详情](docs/skills/huawei-cloud-account-onboarding.md) · [changelog](qa/huawei-cloud-account-onboarding/CHANGELOG.md) |
 | `semantic-creator` | 0.5.1 | **语义创建器** — 接口经 HTML 决策工作台生成循证 Kimball 语义层；输出 OKF/YAML | [详情](docs/skills/semantic-creator.md) · [changelog](qa/semantic-creator/CHANGELOG.md) |
 | `sce-creator` | 0.1.0 | **场景-概念-实体萃取** — 两轮从原文萃取可调用的场景、概念与实体 | [详情](docs/skills/sce-creator.md) · [changelog](qa/sce-creator/CHANGELOG.md) |
 | `constraint-charter` | 0.1.0 | **约束宪章** — 把审计目标与数值门禁固化为受版本控制的 `GATES.md` | [详情](docs/skills/constraint-charter.md) · [changelog](qa/constraint-charter/CHANGELOG.md) |

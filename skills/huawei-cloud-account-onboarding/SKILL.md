@@ -1,71 +1,39 @@
 ---
 name: huawei-cloud-account-onboarding
-description: Guides Huawei Cloud real-name verification (实名认证) via terminal QR code — check account status, generate a scan-to-verify QR, poll every 3s until approved/rejected/expired. Use when the user mentions 华为云/Huawei Cloud plus 实名认证/实名/认证状态/real-name verification, or an account-opening flow says verification is required. Currently a local mock demo; refuses to collect real ID documents or credentials, and non-Huawei-Cloud identity flows.
-license: Apache-2.0
-compatibility: Node.js 18+, local network (phone on same WiFi to scan); mock only, no Huawei Cloud credentials needed
+description: "Checks Huawei Cloud real-name verification (实名认证) status and guides face-scan verification, read-only via hcloud: reads the account's verification state, and when unverified fetches the face-auth QR address, renders it in the terminal to scan by phone, then polls until verified. Use when the user mentions 华为云 / Huawei Cloud plus 实名认证/实名/认证状态/real-name verification, or a Huawei Cloud flow reports verification is required. Face-scan channel only; refuses ID, document, bank-card and SMS-code intake, refuses write operations (enterprise and certificate channels are console-only), and refuses non-Huawei-Cloud identity flows."
 metadata:
-  author: ontology-of-everything
-  version: "0.1.0"
+  version: "1.0.0"
+  openclaw:
+    requires:
+      bins: [hcloud]
+    primaryEnv: HUAWEICLOUD_SDK_AK
+    homepage: https://github.com/ontology-of-everything/SemanticSkills/tree/main/skills/huawei-cloud-account-onboarding
+    envVars:
+      - {name: HUAWEICLOUD_SDK_AK, required: false}
+      - {name: HUAWEICLOUD_SDK_SK, required: false}
 ---
 
 # 华为云账号开通 · 实名认证引导
 
-> **华为社区版** · 社区维护，非华为云官方。当前为 **本地 mock 演示**：接口形态参考业界标准（创建会话 → 轮询状态 → 终态收敛，同飞书扫码/支付宝实人认证/Stripe Identity），真实 API 上线后仅需替换 `HUAWEICLOUD_ONBOARDING_BASE_URL`。
+> **华为社区版** · 社区维护，非华为云官方；结论以当次 hcloud 响应为准。
 
-## Workflow
+凭 **hcloud ≥7.2** 只读回答一件事：**这个账号现在能不能买东西**。已实名则确认了事；未实名把人脸二维码递到用户手机上，盯到认证落地。
 
-所有命令在本技能目录执行；首次使用先 `cd scripts && npm install`。
+## 三步
 
-### Step 0 · 确保 mock 服务在运行
+1. **查状态** —— 先跑 `ShowRealNameAuthStatus`，按四态分流。取码命令不校验实名状态，已实名账号照样返回可用二维码，门禁只能由技能承担。
+2. **递二维码** —— 仅当未实名、且用户此刻能拿手机时才取码，交 `scripts/render-qr.ts` 渲染。地址是一次性凭据：不落盘、不转发、不复用。
+3. **盯落地** —— 用 waiter 轮询至已实名；超时先问用户再重取，不自动重发。
 
-```bash
-curl -s http://127.0.0.1:3923/healthz || (node scripts/mock-server.js &)
-```
+命令、响应字段与取值一律抄 `references/commands.md`，不用 `--help` 现场发现、不自拼参数。无 hcloud profile 时停下，请用户自行配置，不代写凭证。
 
-服务监听 `0.0.0.0`，二维码 URL 自动使用本机局域网 IP——**用户手机须与本机同一 WiFi**。
+## 红线
 
-### Step 1 · 查账号实名状态
-
-```bash
-curl -s http://127.0.0.1:3923/v1/customers/me/verification-status
-```
-
-- `verified: true` → 告知用户已完成实名认证，无需重复操作，流程结束。
-- `verified: false` → 进入 Step 2。
-
-### Step 2 · 生成二维码
-
-```bash
-node scripts/create-verification.js
-```
-
-终端渲染彩框二维码（码体黑白保证可扫性），并输出 `VERIFICATION_ID=<uuid>`。提示用户：**用手机扫码，在打开的页面上完成认证**；二维码有效期 180 秒（可用 `HUAWEICLOUD_ONBOARDING_QR_TTL_SECONDS` 覆盖），已扫码后不再过期。
-
-### Step 3 · 每 3 秒轮询直至终态
-
-```bash
-node scripts/poll-verification.js <VERIFICATION_ID>
-```
-
-脚本自带 3 秒间隔轮询与状态提示（等待扫码 → 已扫码请在手机完成 → 终态）。按退出码收敛：
-
-| 退出码 | 含义 | 对用户说什么 |
-| --- | --- | --- |
-| 0 | approved | 恭喜，实名认证已完成 |
-| 2 | rejected | 认证被拒绝，可重新发起（回 Step 2） |
-| 3 | expired | **二维码已失效**，询问是否重新生成一张（回 Step 2） |
-| 4 | 轮询超时/错误 | 检查 mock 服务是否存活，报告错误原因 |
-
-## Critical Rules
-
-1. **绝不采集真实身份信息** — 用户在对话里粘身份证号、证件照、AK/SK 一律拒收；mock 页面也不输入任何真实信息。
-2. **不代替用户认证** — 扫码和手机上的确认必须由用户本人完成；技能只生成二维码和轮询状态。
-3. **过期必须重问** — 轮询到 `expired` 后不要自动重新生成，先提示"二维码已失效"并询问用户是否再来一张。
-4. **只服务华为云场景** — 其他云厂商或通用 KYC 流程不适用本技能。
-5. **如实声明 mock** — 用户询问时明确当前为本地演示环境，不产生真实的华为云实名记录。
+- **只读** —— 不提交、不变更、不撤销认证，写命令一律拒绝。
+- **不收材料** —— 身份证号、证件照、银行卡号、短信验证码一律拒收并提示删除；三步流程不需要其中任何一项。
+- **不代认证** —— 不代扫码、不代做活体、不把二维码给他人；代做会被华为云判定非本人并可能冻结账号。
+- **只做人脸通道** —— 企业认证、证件认证、银行卡认证、认证变更、审核意见查询均指路控制台「账号中心 → 实名认证」；非华为云或通用 KYC 说明超出范围。
 
 ## References
 
-| 何时读 | 文件 |
-| --- | --- |
-| 接口契约 / 状态机 / 环境变量 / 退出码 | `references/api-contract.md` |
+实体与四态状态机 `references/concepts.md` · 命令与字段 `references/commands.md` · 二维码渲染 `scripts/render-qr.ts`（`npx tsx render-qr.ts <地址>`；首次先 `cd scripts && npm install`）

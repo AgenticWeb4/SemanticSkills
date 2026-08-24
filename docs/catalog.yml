@@ -34,17 +34,18 @@ skills:
   - id: huawei-cloud-account-onboarding
     path: skills/huawei-cloud-account-onboarding
     qa: qa/huawei-cloud-account-onboarding
-    display_name: "Huawei Cloud Account Onboarding — Real-Name Verification via QR (Mock)"
-    display_name_zh: "华为云账号开通 · 扫码实名认证（Mock）"
+    display_name: "Huawei Cloud Account Onboarding — Real-Name Verification via Face-Scan QR"
+    display_name_zh: "华为云账号开通 · 人脸扫码实名认证"
     domain: cloud
     subdomains: [onboarding, identity]
-    summary: Guides Huawei Cloud real-name verification via terminal QR—check account status, generate scan-to-verify QR (LAN H5 page), poll every 3s to approved/rejected/expired; local mock modeled on industry create-session/poll shape; refuses real ID document or credential intake and non-Huawei-Cloud identity flows
-    summary_zh: 华为云 · 扫码实名认证引导；查状态 → 终端二维码 → 3s 轮询收敛；本地 mock（业界三段式接口形态）；拒收真实证件/凭证；仅华为云场景
-    version: "0.1.0"
+    summary: Read-only Huawei Cloud real-name verification guidance via hcloud BSS—check verified_status, and when unverified fetch the face-auth QR address, render it in the terminal to scan, then poll with --cli-waiter until verification lands; face-scan channel only; refuses ID/document/bank-card intake, write operations, and non-Huawei-Cloud identity flows
+    summary_zh: 华为云 · 人脸扫码实名认证引导；查状态 → 取二维码地址 → 终端渲染 → waiter 轮询至已实名；仅人脸通道，只读；拒收证件/银行卡、拒绝写接口；企业与证件认证指路控制台
+    version: "1.0.0"
     agents: [cursor, claude-code, codex, openclaw]
-    compatibility: Node.js 18+, phone on same WiFi to scan; local mock, no Huawei Cloud credentials needed
-    marketplaces: []
+    compatibility: hcloud KooCLI 7.2+ with a configured profile (main account), Node.js 18+ for the QR renderer, outbound network; no agent auto-install
+    marketplaces: [clawhub]
     distribution: direct-skill
+    clawhub_license: MIT-0 on ClawHub; repository source remains Apache-2.0
   - id: semantic-creator
     path: skills/semantic-creator
     qa: qa/semantic-creator
