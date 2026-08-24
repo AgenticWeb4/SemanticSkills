@@ -9,6 +9,12 @@ Monorepo **infrastructure** history. Each skill has its own changelog:
 | huawei-cloud-account-onboarding | [qa/huawei-cloud-account-onboarding/CHANGELOG.md](qa/huawei-cloud-account-onboarding/CHANGELOG.md) |
 | semantic-creator | [qa/semantic-creator/CHANGELOG.md](qa/semantic-creator/CHANGELOG.md) |
 
+## 3.10.1 - 2026-08-24
+
+### Fixes
+
+- **huawei-cloud-cost-estimation** **3.2.4**: lift IAM policies to a skill-level reference (create write principle + RFQ read layers); move parameter CBC errors into pricing traps; make the Reference Index concept/command-layer symmetric (see skill changelog)
+
 ## 3.10.0 - 2026-08-18
 
 ### Features

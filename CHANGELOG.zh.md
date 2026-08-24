@@ -9,6 +9,12 @@ Monorepo **基础设施**变更。各技能独立 changelog：
 | huawei-cloud-account-onboarding | [qa/huawei-cloud-account-onboarding/CHANGELOG.md](qa/huawei-cloud-account-onboarding/CHANGELOG.md) |
 | semantic-creator | [qa/semantic-creator/CHANGELOG.md](qa/semantic-creator/CHANGELOG.md) |
 
+## 3.10.1 - 2026-08-24
+
+### 修复
+
+- **huawei-cloud-cost-estimation** **3.2.4**：IAM 权限文档上提为技能级横切（开通写权限原则 + 询价只读分层）；参数类 CBC 错误迁入 pricing 陷阱；Reference Index 按概念层/命令层同构（详见技能 changelog）
+
 ## 3.10.0 - 2026-08-18
 
 ### 新功能
