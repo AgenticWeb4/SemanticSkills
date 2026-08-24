@@ -9,6 +9,12 @@ Monorepo **基础设施**变更。各技能独立 changelog：
 | huawei-cloud-account-onboarding | [qa/huawei-cloud-account-onboarding/CHANGELOG.md](qa/huawei-cloud-account-onboarding/CHANGELOG.md) |
 | semantic-creator | [qa/semantic-creator/CHANGELOG.md](qa/semantic-creator/CHANGELOG.md) |
 
+## 3.11.0 - 2026-08-24
+
+### 新功能
+
+- **huawei-cloud-account-onboarding** **1.0.0**：重写为真实的只读 BSS 人脸认证命令（`ShowRealNameAuthStatus` + `ShowRealNameAuthQrCode`）——概念层/命令层参考拆分、SKILL.md 收为精炼入口、TypeScript 终端二维码渲染器为唯一脚本、`--cli-waiter` 轮询、跨层命令合同与可选真实冒烟；取码命令自身不设的门禁改由技能承担，移除本地 mock 服务；已发布至 ClawHub（详见技能 changelog）
+
 ## 3.10.1 - 2026-08-24
 
 ### 修复

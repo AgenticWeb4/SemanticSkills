@@ -9,6 +9,12 @@ Monorepo **infrastructure** history. Each skill has its own changelog:
 | huawei-cloud-account-onboarding | [qa/huawei-cloud-account-onboarding/CHANGELOG.md](qa/huawei-cloud-account-onboarding/CHANGELOG.md) |
 | semantic-creator | [qa/semantic-creator/CHANGELOG.md](qa/semantic-creator/CHANGELOG.md) |
 
+## 3.11.0 - 2026-08-24
+
+### Features
+
+- **huawei-cloud-account-onboarding** **1.0.0**: rewrite onto the real read-only BSS face-scan commands (`ShowRealNameAuthStatus` + `ShowRealNameAuthQrCode`) — concepts/commands reference split with SKILL.md kept as a compact entry point, TypeScript terminal QR renderer as the only script, `--cli-waiter` polling, cross-layer command contract and optional real BSS smoke; the skill now owns the gate the QR command lacks, and the local mock server is removed; published to ClawHub (see skill changelog)
+
 ## 3.10.1 - 2026-08-24
 
 ### Fixes
