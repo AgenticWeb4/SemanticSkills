@@ -2,6 +2,14 @@
 
 仅本技能变更。仓库级变更见 [../../CHANGELOG.zh.md](../../CHANGELOG.zh.md)。
 
+## 3.2.4 - 2026-08-24
+
+### 变更
+
+- `pricing/iam-policies.md` 上提为 `references/iam-policies.md`（横切文档，同时服务两域）：新增开通侧写权限原则（写 Action 跟随白名单主体所属服务；不逐服务枚举；403 报告用户补授权、不自行提权），询价只读分层保留
+- 参数类错误（`CBC.0100`/`CBC.99006006`/`CBC.99006055`）迁入 `pricing/commands.md` 陷阱区；iam-policies 只留权限/限流（403/`CBC.0151`/429）
+- SKILL.md Reference Index 改为按域的概念层/命令层同构表达（Pricing `semantic/*.yml` + `commands.md`；Lifecycle `concepts.md` + `commands.md`），横切文档单列
+
 ## 3.2.3 - 2026-08-03
 
 ### 变更

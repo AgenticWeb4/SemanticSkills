@@ -13,6 +13,9 @@
    `Duration`→`4`/小时；`size*|容量|存量`→`10`/**GB×小时**（勿 `resource_size`，禁 type7/72/87）；
    `*flow|retrieval*`→`10`/GB；`get|put|request*`→`14`/次。
    `CBC.6006`/`CBC.6050`：改 type/factor 或同 abbreviation sibling **一次**；禁穷举。
+6. **参数类错误** — `CBC.0100` 核对运行时 help 与参数组合；`CBC.99006006` 回到规格、
+   region、计费模式确认；`CBC.99006055` 缩小询价批次或周期。权限类（403/`CBC.0151`/429）
+   见 `../iam-policies.md`。
 
 ---
 
@@ -165,4 +168,4 @@ hcloud IAM KeystoneListAuthProjects --cli-region=cn-north-1 --cli-output=json
 hcloud IAM KeystoneListProjects --domain_id=<domain_id> --cli-region=cn-north-1 --cli-output=json
 ```
 
-伙伴代客：置换客户 Token 后取 region 对应 `project_id`；见 `iam-policies.md`。
+伙伴代客：置换客户 Token 后取 region 对应 `project_id`；见 `../iam-policies.md`。

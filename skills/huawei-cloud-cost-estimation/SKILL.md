@@ -4,7 +4,7 @@ description: Generate Huawei Cloud pre-order price estimates, safely provision a
 compatibility: hcloud KooCLI 7.2+, IAM permissions matching requested read/write operations, outbound network; no agent auto-install
 metadata:
   author: ontology-of-everything
-  version: "3.2.3"
+  version: "3.2.4"
   openclaw:
     requires:
       bins: [hcloud]
@@ -77,11 +77,12 @@ metadata:
 
 ## Reference Index（按需加载）
 
-| 何时读 | 文件 |
-| --- | --- |
-| 询价入口 | `references/pricing/semantic/catalog.yml` + `rfq-*.yml` |
-| 询价命令 / 响应字段 / 陷阱 | `references/pricing/commands.md` |
-| 开通安全 / 退订控制台指引 | `references/lifecycle/concepts.md` |
-| 开通命令白名单与依赖 | `references/lifecycle/commands.md` |
-| 403 或权限问题 | `references/pricing/iam-policies.md` |
-| hcloud 未就绪 | `references/cli-installation.md`（**仅转述给用户**，不代为执行） |
+两域同构：概念层答「是什么/为什么」，命令层答「怎么执行」。
+
+| 域 | 概念层 | 命令层 |
+| --- | --- | --- |
+| Pricing | `references/pricing/semantic/catalog.yml` + `rfq-*.yml`（事实/维度/路由） | `references/pricing/commands.md`（契约/响应字段/陷阱） |
+| Lifecycle | `references/lifecycle/concepts.md`（开通安全/退订控制台指引） | `references/lifecycle/commands.md`（白名单与依赖） |
+
+横切支撑：403 或权限问题 → `references/iam-policies.md`；
+hcloud 未就绪 → `references/cli-installation.md`（**仅转述给用户**，不代为执行）。

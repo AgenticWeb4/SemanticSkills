@@ -6,7 +6,7 @@ Deterministic pre-order quotes via hcloud BSS (`ListServiceResources` → `ListR
 
 > **华为社区版** · 社区维护，非华为云官方；结论以当次 hcloud 响应为准。
 
-**Version:** 3.2.3 · Changelog: [qa/huawei-cloud-cost-estimation/CHANGELOG.md](../../qa/huawei-cloud-cost-estimation/CHANGELOG.md) · 中文仓库说明：[README-CN.md](../../README-CN.md)
+**Version:** 3.2.4 · Changelog: [qa/huawei-cloud-cost-estimation/CHANGELOG.md](../../qa/huawei-cloud-cost-estimation/CHANGELOG.md) · 中文仓库说明：[README-CN.md](../../README-CN.md)
 
 ## What it does
 
@@ -26,14 +26,14 @@ Independent from [huawei-cloud-billing-scout](huawei-cloud-billing-scout.md) (pa
 skills/huawei-cloud-cost-estimation/
 ├── SKILL.md                     # route + pricing flow + lifecycle gates
 └── references/
-    ├── cli-installation.md
+    ├── cli-installation.md      # cross-cutting: CLI readiness (user-run only)
+    ├── iam-policies.md          # cross-cutting: read layers + create write principle + 403
     ├── pricing/
-    │   ├── commands.md          # RFQ command contracts, response paths, traps
-    │   ├── iam-policies.md
-    │   └── semantic/            # catalog + rfq-{period,ondemand,shared} models
-    └── lifecycle/               # thin flow, no semantic layer
-        ├── concepts.md          # create gates + unsubscribe console guidance
-        └── commands.md          # 74 create ops, bodies only
+    │   ├── semantic/            # concept layer: catalog + rfq-{period,ondemand,shared}
+    │   └── commands.md          # command layer: RFQ contracts, response paths, traps
+    └── lifecycle/
+        ├── concepts.md          # concept layer: create gates + unsubscribe guidance
+        └── commands.md          # command layer: 74 create ops, bodies only
 ```
 
 No `evals/`, `qa/`, or `*-workspace/` under `skills/`.
@@ -87,7 +87,7 @@ qa/huawei-cloud-cost-estimation/
 
 ## Marketplaces
 
-- ClawHub: `huawei-cloud-cost-estimation` 3.2.1; bundle license MIT-0
+- ClawHub: `huawei-cloud-cost-estimation` 3.2.4; bundle license MIT-0
 
 ## Install
 

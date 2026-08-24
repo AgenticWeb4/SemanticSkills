@@ -25,7 +25,7 @@ skills:
     subdomains: [pricing, finops, procurement, provisioning]
     summary: Huawei Cloud pre-order pricing (period + on-demand; resolve service resource type → ListResourceSpecs → on-demand ListUsageTypes then quote) plus 74 controlled create ops; small chains complete directly, larger chains 2-3 commands/round; creates require help, --dryrun, fee review, confirmation; unsubscribe console-only
     summary_zh: 华为云 · 询价（资源类型→规格→按需 usage_factor→报价）+ 受控开通 + 退订控制台指引；小任务直达、大任务每轮 2–3 条；开通必经 help/--dryrun/费用/确认
-    version: "3.2.3"
+    version: "3.2.4"
     agents: [cursor, claude-code, codex, openclaw]
     compatibility: hcloud KooCLI 7.2+, IAM permissions matching requested read/create operations, outbound network; no agent auto-install
     marketplaces: [skills-sh, skillsmp, clawhub]
