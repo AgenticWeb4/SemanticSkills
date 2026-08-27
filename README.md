@@ -71,6 +71,7 @@ SemanticSkills/
 | `semantic-creator` | 0.5.1 | **Semantic Creator** — evidence-only interface → governed Kimball layer via an HTML decision workbench; OKF/YAML output | [details](docs/skills/semantic-creator.md) · [changelog](qa/semantic-creator/CHANGELOG.md) |
 | `sce-creator` | 0.1.0 | **SCE Creator** — two-round extract of scenes, concepts, and entities from source text | [details](docs/skills/sce-creator.md) · [changelog](qa/sce-creator/CHANGELOG.md) |
 | `constraint-charter` | 0.1.0 | **Constraint Charter** — persist Uncle Bob audit goals & numeric gates as versioned `GATES.md` | [details](docs/skills/constraint-charter.md) · [changelog](qa/constraint-charter/CHANGELOG.md) |
+| `jackson-concept-design` | 0.1.0 | **Jackson Concept Design** — model independent concepts and compose application behavior through synchronizations | [details](docs/skills/jackson-concept-design.md) · [changelog](qa/jackson-concept-design/CHANGELOG.md) |
 
 Index: [docs/catalog.yml](docs/catalog.yml).
 

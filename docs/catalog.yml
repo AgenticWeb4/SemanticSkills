@@ -89,3 +89,17 @@ skills:
     compatibility: Grilling-style Q&A; optional pre-commit/CI tools to enforce charter thresholds; no cloud credentials
     marketplaces: []
     distribution: direct-skill
+  - id: jackson-concept-design
+    path: skills/jackson-concept-design
+    qa: qa/jackson-concept-design
+    display_name: "Jackson Concept Design"
+    display_name_zh: "Jackson 概念设计"
+    domain: meta
+    subdomains: [concept-design, requirements, software-design]
+    summary: Models requirements as independent concepts defined by one purpose, an end-to-end operational principle, state, and actions; critiques boundaries through specificity, completeness, independence, and familiarity; composes application behavior with synchronizations and stops before engineering artifacts
+    summary_zh: 用单一 Purpose、端到端 Operational Principle、State 和 Actions 建模独立 concepts；以专一、完整、独立、熟悉审查边界，用 synchronizations 组合应用行为，止于模型确认
+    version: "0.1.0"
+    agents: [cursor, claude-code, codex, openclaw]
+    compatibility: No external tools or network; pure concept modeling
+    marketplaces: []
+    distribution: direct-skill
