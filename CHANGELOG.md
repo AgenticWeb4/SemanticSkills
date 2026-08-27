@@ -8,6 +8,18 @@ Monorepo **infrastructure** history. Each skill has its own changelog:
 | huawei-cloud-cost-estimation | [qa/huawei-cloud-cost-estimation/CHANGELOG.md](qa/huawei-cloud-cost-estimation/CHANGELOG.md) |
 | huawei-cloud-account-onboarding | [qa/huawei-cloud-account-onboarding/CHANGELOG.md](qa/huawei-cloud-account-onboarding/CHANGELOG.md) |
 | semantic-creator | [qa/semantic-creator/CHANGELOG.md](qa/semantic-creator/CHANGELOG.md) |
+| jackson-concept-design | [qa/jackson-concept-design/CHANGELOG.md](qa/jackson-concept-design/CHANGELOG.md) |
+
+## 3.12.0 - 2026-08-27
+
+### Features
+
+- **jackson-concept-design** **0.1.0**: add a Jackson-inspired concept-modeling skill
+  that defines independent concepts through Purpose, Operational Principle,
+  State, and Actions; critiques boundaries by specificity, completeness,
+  independence, and familiarity; composes application behavior with
+  synchronizations; and stops before PRD, architecture, or code (see skill
+  changelog)
 
 ## 3.11.0 - 2026-08-24
 

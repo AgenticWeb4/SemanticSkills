@@ -8,6 +8,15 @@ Monorepo **基础设施**变更。各技能独立 changelog：
 | huawei-cloud-cost-estimation | [qa/huawei-cloud-cost-estimation/CHANGELOG.zh.md](qa/huawei-cloud-cost-estimation/CHANGELOG.zh.md) |
 | huawei-cloud-account-onboarding | [qa/huawei-cloud-account-onboarding/CHANGELOG.md](qa/huawei-cloud-account-onboarding/CHANGELOG.md) |
 | semantic-creator | [qa/semantic-creator/CHANGELOG.md](qa/semantic-creator/CHANGELOG.md) |
+| jackson-concept-design | [qa/jackson-concept-design/CHANGELOG.md](qa/jackson-concept-design/CHANGELOG.md) |
+
+## 3.12.0 - 2026-08-27
+
+### 新功能
+
+- **jackson-concept-design** **0.1.0**：新增 Jackson 概念建模技能，以 Purpose、Operational
+  Principle、State 和 Actions 定义独立 concepts，用专一、完整、独立、熟悉审查边界，通过
+  synchronizations 组合应用行为，并在 PRD、架构或代码之前停于模型确认（详见技能 changelog）
 
 ## 3.11.0 - 2026-08-24
 
