@@ -9,6 +9,17 @@ Monorepo **基础设施**变更。各技能独立 changelog：
 | huawei-cloud-account-onboarding | [qa/huawei-cloud-account-onboarding/CHANGELOG.md](qa/huawei-cloud-account-onboarding/CHANGELOG.md) |
 | semantic-creator | [qa/semantic-creator/CHANGELOG.md](qa/semantic-creator/CHANGELOG.md) |
 | jackson-concept-design | [qa/jackson-concept-design/CHANGELOG.md](qa/jackson-concept-design/CHANGELOG.md) |
+| wyx-zh-cn | [qa/wyx-zh-cn/CHANGELOG.md](qa/wyx-zh-cn/CHANGELOG.md) |
+
+## 3.13.0 - 2026-08-27
+
+### 新功能
+
+- **wyx-zh-cn** **0.26.0**：新增 [jlifyio/wyx](https://github.com/jlifyio/wyx) v0.26.0 的中文改写版
+  —— 用与代码同目录的 CONCEPT/PIPELINE/SYNCS 规格声明模块边界，审计覆盖缺口并按依赖排序给出命令计划，
+  用校准过的严重度与跨规格引用校验检测规格漂移，生成 Mermaid 架构地图；上游五条斜杠命令合并为一个技能的
+  六种路由模式，上游 Claude Code hooks 运行时逐字节原样收录于 `runtime/`，作为可选的边界注入层
+  （保留 MIT 声明，详见技能 changelog）
 
 ## 3.12.0 - 2026-08-27
 

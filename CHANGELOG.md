@@ -9,6 +9,20 @@ Monorepo **infrastructure** history. Each skill has its own changelog:
 | huawei-cloud-account-onboarding | [qa/huawei-cloud-account-onboarding/CHANGELOG.md](qa/huawei-cloud-account-onboarding/CHANGELOG.md) |
 | semantic-creator | [qa/semantic-creator/CHANGELOG.md](qa/semantic-creator/CHANGELOG.md) |
 | jackson-concept-design | [qa/jackson-concept-design/CHANGELOG.md](qa/jackson-concept-design/CHANGELOG.md) |
+| wyx-zh-cn | [qa/wyx-zh-cn/CHANGELOG.md](qa/wyx-zh-cn/CHANGELOG.md) |
+
+## 3.13.0 - 2026-08-27
+
+### Features
+
+- **wyx-zh-cn** **0.26.0**: add a Chinese adaptation of [jlifyio/wyx](https://github.com/jlifyio/wyx)
+  v0.26.0 — module boundaries declared as colocated CONCEPT/PIPELINE/SYNCS specs,
+  coverage audit with dependency-ordered command plans, drift detection with
+  calibrated severities and cross-spec reference validation, and Mermaid
+  architecture maps; upstream's five slash commands become one skill with six
+  routed modes, and the upstream Claude Code hooks runtime ships verbatim under
+  `runtime/` as an optional boundary-injection layer (MIT notice retained; see
+  skill changelog)
 
 ## 3.12.0 - 2026-08-27
 
