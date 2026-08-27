@@ -72,6 +72,7 @@ SemanticSkills/
 | `sce-creator` | 0.1.0 | **SCE Creator** — two-round extract of scenes, concepts, and entities from source text | [details](docs/skills/sce-creator.md) · [changelog](qa/sce-creator/CHANGELOG.md) |
 | `constraint-charter` | 0.1.0 | **Constraint Charter** — persist Uncle Bob audit goals & numeric gates as versioned `GATES.md` | [details](docs/skills/constraint-charter.md) · [changelog](qa/constraint-charter/CHANGELOG.md) |
 | `jackson-concept-design` | 0.1.0 | **Jackson Concept Design** — model independent concepts and compose application behavior through synchronizations | [details](docs/skills/jackson-concept-design.md) · [changelog](qa/jackson-concept-design/CHANGELOG.md) |
+| `wyx-zh-cn` | 0.26.0 | **wyx Architecture Guardrails (Chinese)** — declare module boundaries as colocated CONCEPT/PIPELINE/SYNCS specs, detect spec-code drift, map the architecture | [details](docs/skills/wyx-zh-cn.md) · [changelog](qa/wyx-zh-cn/CHANGELOG.md) |
 
 Index: [docs/catalog.yml](docs/catalog.yml).
 

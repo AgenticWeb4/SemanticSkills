@@ -103,3 +103,18 @@ skills:
     compatibility: No external tools or network; pure concept modeling
     marketplaces: []
     distribution: direct-skill
+  - id: wyx-zh-cn
+    path: skills/wyx-zh-cn
+    qa: qa/wyx-zh-cn
+    display_name: "wyx Architecture Guardrails (Chinese)"
+    display_name_zh: "wyx 架构护栏 · 中文版"
+    domain: meta
+    subdomains: [architecture, module-boundaries, drift-detection, concept-specs]
+    summary: Chinese adaptation of jlifyio/wyx v0.26.0—declares module boundaries as colocated CONCEPT/PIPELINE/SYNCS specs, audits spec coverage with dependency-ordered command plans, detects spec-code drift with calibrated severities and cross-spec reference validation, and renders an ARCHITECTURE.md Mermaid map; ships the upstream Claude Code hooks runtime verbatim as an optional boundary-injection layer
+    summary_zh: jlifyio/wyx v0.26.0 中文改写版 · 用与代码同目录的 CONCEPT/PIPELINE/SYNCS 规格声明模块边界；审计覆盖缺口并按依赖排序给出命令计划；用校准过的严重度与跨规格校验检测规格漂移；生成 ARCHITECTURE.md Mermaid 地图；上游 hooks 运行时原样收录，作为可选的边界自动注入层
+    version: "0.26.0"
+    agents: [cursor, claude-code, codex, openclaw]
+    compatibility: Specs and drift checks need only file read/write plus Grep/Glob; the optional boundary-injection runtime requires Claude Code hooks and jq
+    marketplaces: []
+    distribution: direct-skill
+    upstream: https://github.com/jlifyio/wyx (MIT; notice retained as skills/wyx-zh-cn/LICENSE.upstream)
