@@ -22,8 +22,9 @@ Concept = Name + Purpose + Operational Principle + State + Actions
   - 一次只解释一个 concept，写 actions 与结果，不写界面、协议或表结构；
   - 先用当前场景的具体对象写以检验价值，成立后再改写为多态通用版本；
   - OP 解释本质，不替代规范：行为由 state machine（state + actions）完整规定。
-- **State**：运行中为支持行为必须记住的事实，不是领域知识或数据库设计。User、Item 等实体通常只是这里的身份类型或多态参数，不是顶层模块。
-- **Actions**：用户或系统执行的抽象行为，读取或改变 state；定义条件、输入、输出与效果，不拆成界面步骤。
+- **State**：运行中为支持行为必须记住的事实，不是领域知识或数据库设计。记法用 Alloy 风格关系式（`password: U -> String`；课程 SSF 散文式等价）。User、Item 等实体通常只是类型参数或身份类型，不是顶层模块。
+- **Actions**：用户或系统执行的抽象行为，读取或改变 state；签名写 `动作 (入参: 类型) : (出参: 类型)` 加 requires/ensures，按输出模式拆 case——错误是独立的输出 case（`: (error: String)`），供错误 sync 匹配；不拆成界面步骤。
+- **Queries**（`_` 前缀）：只读、不改 state 的查询（`_getUser (session) : (user)`），是常用读取模式的速记，专供 sync 的 where 段；不是 action。
 
 ## 设计循环
 
@@ -80,7 +81,7 @@ Concept = Name + Purpose + Operational Principle + State + Actions
 
 ## 组合：Sync
 
-Sync 约束多个 concept 的 actions 共同发生，用于触发、连接或限制应用行为。Concept 规范不点名其他 concepts；组合只写在组合层（app 级的 syncs）。记法与示例（压缩自 Jackson 的 ExpiringUserSession）：
+Sync 是概念之外的独立组合层：按因果规则，某些动作发生后引发另一些动作。Concept 规范不点名其他 concepts；组合只写在组合层（app 级的 syncs）。现行记法是 when / where / then 三段式（Beyond Objects，2026；示例改写自 Jackson 的 ExpiringUserSession）：
 
 ```text
 app ExpiringUserSession
@@ -88,28 +89,32 @@ app ExpiringUserSession
   include Session [User.User]
   include ExpiringResource [Session.Session]
 
-  sync login (name, pass: String, out u: User, out s: Session)
-    when User.authenticate (name, pass, u)
-    Session.start (u, s)
-    ExpiringResource.allocate (s, 300)
+  sync login
+    when Requesting.login (name, pass)
+    where User._authenticate (name, pass) : (user)
+    then Session.start (user), ExpiringResource.allocate (session, 300)
 
-  sync terminate (s: Session)
-    when ExpiringResource.expire (s)
-    Session.end (s)
+  sync loginFailed
+    when Requesting.login (name, pass)
+    where User._authenticate (name, pass) : (error)
+    then Requesting.respond (error)
 
-  sync authenticate (s: Session, out u: User)
-    Session.getUser (s, u)
+  sync terminate
+    when ExpiringResource.expire (resource)
+    then Session.end (resource)
 ```
 
-- 无 `when` 的 sync 只是把概念动作暴露为应用动作（如上例 authenticate）。
+**语义规则（因果规则，现行版）：**
+
+- **when** 匹配已完成的动作（completion）及其输出；参数全部具名，允许只匹配子集。
+- **where** 经 queries 读取概念状态并绑定变量；绑定不成立则本条 sync 不触发。
+- **then** 触发新的动作调用（invocation）；绑定变量跨段传递，sync 同时是数据流。
+- **外部请求也是动作**：端点、定时器等外部入口具体化为 `Requesting` 伪概念的动作，由 sync 接力，响应同样由 sync 产生；应用动作 = 由 Requesting 触发的 sync。
+- **错误即输出**：动作失败输出 `(error: …)` 这个普通的可匹配 case，由错误 sync 响应或补偿，不需要事务语义。
+- **行为保持**：sync 只能调用概念已声明的动作、只能经 queries 读状态，不能使概念做出孤立时不可能的行为；组合因此不破坏一致（Integrity）。
+- **旧版语义已废弃**：书（2021）的 CSP 对称约束与"全有或全无"事务语义被作者本人放弃——"designers find this approach hard to understand … hard to implement, since it requires transactions"（Beyond Objects）。存量模型的旧记法按本节改写。
 - 未被任何 sync 提及的概念动作不在应用中出现；排除是设计决策（Yellkey 不开放 renew），记入排除与未决表。
-
-**语义规则：**
-
-- **反应式**：`when` 中动作发生，联动动作随之发生；参数跨动作传递，sync 同时是数据流。
-- **原子**：全有或全无——任一联动动作被其概念阻塞，触发动作也不能发生。
-- **行为保持**：sync 可阻止动作、限制参数，但不能使概念做出孤立时不可能的行为；组合因此不破坏一致（Integrity）。
-- **实现层**由 mediator 落地 sync：mediator 引用概念，概念之间零相互引用。
+- **实现层**由 mediator 或规则引擎落地 sync：组合层引用概念，概念之间零相互引用。
 
 **模式与信号：**
 
@@ -134,30 +139,56 @@ app ExpiringUserSession
 
 ## 输出格式
 
+每概念四节 + 可选 notes，除 notes 外零点名其他概念；确认后可经 `jackson-concept-prd` 原样落为与代码共存的 `CONCEPT.md`（与 wyx 架构护栏兼容）。
+
 ````markdown
 ## 需求与 Misfits
 - 用户 / 需要 / 问题 / 结果 / 约束
 
 ## Concepts
-### <Name<Type>>
-- Purpose:
-- Operational Principle:
-- State:
-- Actions:
-- 判断: 专一 / 完整 / 独立 / 熟悉
+
+```text
+concept <Name> [<TypeParam>]
+
+## purpose
+[恰好一个：为何存在、给谁什么价值]
+
+## state
+- <字段>: <TypeParam> -> <类型>
+
+## actions
+<动作> (<入参: 类型>) : (<出参: 类型>)
+  requires [前置] ensures [效果]
+<动作> (<入参: 类型>) : (error: String)
+  [错误 case 单列，供错误 sync 匹配]
+_<查询> (<入参>) : (<出参>)
+  [只读；供 where 段]
+
+## operational principle
+after <动作> (<参数>) : (<结果>)
+then <动作> (<参数>) : (<结果>)
+[可多条场景，每条以兑现 purpose 收尾]
+
+## notes
+[可选。使用上下文备注的唯一落点（应用角色、类型参数实例化）；
+不设 interactions / dependencies 段——跨概念信息属于 syncs 与依赖图]
+```
+
+- 判断: 专一 / 完整 / 独立 / 熟悉（每概念附结论）
 
 ## Synchronizations
 ```text
 app <应用名>
   include <Concept> [<Type>]
 
-  sync <应用动作> (<参数>)
-    when <Concept.action>
-    <Concept.action>    // 每条 sync 注明组合理由/风险
+  sync <名>
+    when <Concept.action (参数)>
+    where <Concept._query (参数) : (绑定)>
+    then <Concept.action (参数)>    // 每条 sync 注明组合理由/风险
 ```
 
 ## 依赖图与子集
-- 依赖: C1 -> C2, ...
+- 依赖: C1 -> C2, ...（extrinsic，只在此处；不写进概念规格）
 - 子集: {MVP: ...} / {扩展: ...}
 
 ## 排除与未决
@@ -168,8 +199,9 @@ app <应用名>
 
 - 每个 concept 恰好一个 purpose，OP 以兑现该 purpose 的结局收尾。
 - 每个 concept 的四词判断均有结论，结论词出自设计循环第 4 步词表。
-- State 与 actions 完整规定行为，无界面、协议或表结构细节。
-- 无 intrinsic dependency；跨概念行为全部落在 sync 块，且每条满足行为保持。
+- State 与 actions 完整规定行为（queries 只读不改 state），无界面、协议或表结构细节。
+- 概念规格只含 purpose / state / actions / operational principle（可选 notes）；除 notes 外零点名其他概念，无 interactions / dependencies 段；跨概念行为全部落在 sync 块，且每条满足行为保持。
+- Sync 用 when / where / then 记法；每个可失败动作的 error case 有错误 sync 处理，或有意不处理并记入排除与未决表。
 - 未被 sync 提及的动作均为有意排除；欠同步、过同步已按 tighten/loosen 检视。
 - 依赖图画出且无违反 Parnas 规则处；MVP 子集从图中圈定。
 - 被否决的候选与待决取舍全部进入排除与未决表，无空悬项。
@@ -178,10 +210,14 @@ app <应用名>
 
 核验只用作者原文：
 
+- [Beyond Objects](https://arxiv.org/abs/2606.27258)（2026：现行规格五要素 + queries、when/where/then 因果语义、废弃书版事务语义）
+- [WYSIWID 论文](https://arxiv.org/abs/2508.14511)（规格四节无跨概念段、错误作为可匹配输出、规格即实现 prompt）
 - [官方教程](https://essenceofsoftware.com/tutorials/)（含
+  [资格判据](https://essenceofsoftware.com/tutorials/concept-basics/criteria/)、
   [Sync 组合](https://essenceofsoftware.com/tutorials/concept-basics/sync/)、
   [依赖与子集](https://essenceofsoftware.com/tutorials/concept-basics/dependency/)）
-- [概念设计综述](https://essenceofsoftware.com/posts/distillation/)
+- [概念设计综述](https://essenceofsoftware.com/posts/distillation/)（概念独立性原句 "Each concept is defined without reference to any other concepts"）
 - [Design moves](https://essenceofsoftware.com/posts/design-moves/)
+- [6.1040 概念评分标准](https://61040-fa25.github.io/resources/concept-rubric)（使用上下文引用仅限 notes 段）
 
 引用时区分原句、忠实转述与本技能的操作性综合。

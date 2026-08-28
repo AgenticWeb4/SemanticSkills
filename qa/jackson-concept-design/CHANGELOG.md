@@ -2,6 +2,21 @@
 
 Skill-only history. Repository tooling changes: [../../CHANGELOG.md](../../CHANGELOG.md).
 
+## 0.3.0 - 2026-08-28
+
+### Changed
+
+- Adopt the author's current notation (Beyond Objects, 2026): syncs move to
+  when/where/then causal-rule semantics with the Requesting pseudo-concept;
+  the book's CSP/transactional sync semantics is marked deprecated by the
+  author himself
+- Structured concept spec format: Alloy-style relational state, action
+  signatures with requires/ensures and error output cases, underscore-prefixed
+  read-only queries, after/then operational principles
+- Concept specs stay zero-naming (no interactions/dependencies sections);
+  an optional notes section is the only sanctioned place for context-of-use
+  remarks (per the 6.1040 concept rubric); output format is wyx-compatible
+
 ## 0.2.0 - 2026-08-28
 
 ### Changed

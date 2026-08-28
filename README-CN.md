@@ -71,10 +71,10 @@ SemanticSkills/
 | `semantic-creator` | 0.5.1 | **语义创建器** — 接口经 HTML 决策工作台生成循证 Kimball 语义层；输出 OKF/YAML | [详情](docs/skills/semantic-creator.md) · [changelog](qa/semantic-creator/CHANGELOG.md) |
 | `sce-creator` | 0.1.0 | **场景-概念-实体萃取** — 两轮从原文萃取可调用的场景、概念与实体 | [详情](docs/skills/sce-creator.md) · [changelog](qa/sce-creator/CHANGELOG.md) |
 | `constraint-charter` | 0.1.0 | **约束宪章** — 把审计目标与数值门禁固化为受版本控制的 `GATES.md` | [详情](docs/skills/constraint-charter.md) · [changelog](qa/constraint-charter/CHANGELOG.md) |
-| `jackson-concept-design` | 0.2.0 | **Jackson 概念设计** — 用独立 concepts 与 synchronizations 建模需求，止于模型确认 | [详情](docs/skills/jackson-concept-design.md) · [changelog](qa/jackson-concept-design/CHANGELOG.md) |
-| `jackson-concept-prd` | 0.1.0 | **Jackson 概念 PRD** — 把确认的概念模型转录为总体 / 每概念 / 按 flow 的 PRD | [详情](docs/skills/jackson-concept-prd.md) · [changelog](qa/jackson-concept-prd/CHANGELOG.md) |
-| `jackson-concept-implementation` | 0.1.0 | **Jackson 概念实现** — 把确认的概念模型映射为模块单体（概念模块 + sync mediator） | [详情](docs/skills/jackson-concept-implementation.md) · [changelog](qa/jackson-concept-implementation/CHANGELOG.md) |
-| `jackson-concept-audit` | 0.1.0 | **Jackson 概念审计** — 只读五维对照模型与代码，输出带路由的发现 | [详情](docs/skills/jackson-concept-audit.md) · [changelog](qa/jackson-concept-audit/CHANGELOG.md) |
+| `jackson-concept-design` | 0.3.0 | **Jackson 概念设计** — 用独立 concepts 与 when/where/then 因果 synchronizations 建模需求，止于模型确认 | [详情](docs/skills/jackson-concept-design.md) · [changelog](qa/jackson-concept-design/CHANGELOG.md) |
+| `jackson-concept-prd` | 0.2.0 | **Jackson 概念 PRD** — 总体 PRD 集中，每概念 CONCEPT.md 与代码共存（wyx 兼容）、sync 单文件按 flow 分节 | [详情](docs/skills/jackson-concept-prd.md) · [changelog](qa/jackson-concept-prd/CHANGELOG.md) |
+| `jackson-concept-implementation` | 0.2.0 | **Jackson 概念实现** — 把确认的概念模型映射为模块单体（概念模块 + 因果 sync、规格共存落位） | [详情](docs/skills/jackson-concept-implementation.md) · [changelog](qa/jackson-concept-implementation/CHANGELOG.md) |
+| `jackson-concept-audit` | 0.2.0 | **Jackson 概念审计** — 只读五维审计，规格漂移用校准检查表与跨规格校验，输出带路由的发现 | [详情](docs/skills/jackson-concept-audit.md) · [changelog](qa/jackson-concept-audit/CHANGELOG.md) |
 | `wyx-zh-cn` | 0.26.0 | **wyx 架构护栏 · 中文版** — 用同目录 CONCEPT/PIPELINE/SYNCS 规格声明模块边界、检测规格漂移、生成架构地图 | [详情](docs/skills/wyx-zh-cn.md) · [changelog](qa/wyx-zh-cn/CHANGELOG.md) |
 
 机器可读索引：[docs/catalog.yml](docs/catalog.yml)。

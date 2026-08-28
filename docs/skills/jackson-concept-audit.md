@@ -4,7 +4,7 @@
 
 > 本文是给人看的中文说明，**不是** `npx skills add` 安装包内容。Agent 加载 [`skills/jackson-concept-audit/SKILL.md`](../../skills/jackson-concept-audit/SKILL.md)。
 
-**Version:** 0.1.0 · Changelog:
+**Version:** 0.2.0 · Changelog:
 [qa/jackson-concept-audit/CHANGELOG.md](../../qa/jackson-concept-audit/CHANGELOG.md)
 
 ## 一句话
@@ -19,9 +19,9 @@
 
 ## 方法
 
-1. 定位规格（默认 `docs/prd/`）与工程自带的模块/依赖图素材。
-2. 逐维检查，每条发现记录位置、证据、严重度与唯一路由。
-3. 跨维度合并根因，修复顺序上游优先。
+1. 定位规格（与代码共存的 CONCEPT.md / SYNCS.md 加 `docs/prd/`）与工程自带的模块/依赖图素材。
+2. 规格漂移按校准过的检查表逐类别对账（严重度只降不升、越级重新归类）；规格 ≥5 份时用只读子代理并行扫描。
+3. 跨规格校验 sync 引用、系统性模式聚合、跨维度合并根因，修复顺序上游优先。
 4. 全程只读，不修改任何文件。
 
 ## 安装载荷

@@ -4,7 +4,7 @@
 
 > 本文是给人看的中文说明，**不是** `npx skills add` 安装包内容。Agent 加载 [`skills/jackson-concept-design/SKILL.md`](../../skills/jackson-concept-design/SKILL.md)。
 
-**Version:** 0.2.0 · Changelog:
+**Version:** 0.3.0 · Changelog:
 [qa/jackson-concept-design/CHANGELOG.md](../../qa/jackson-concept-design/CHANGELOG.md)
 
 ## 一句话
@@ -21,9 +21,9 @@
 
 1. 从受益者、misfit、现有做法和期望结果开始，追问功能背后的需要。
 2. 识别有独立目的的候选 concepts，而不把表、页面、实体名或团队边界直接映射成 concepts。
-3. 用 Purpose、Operational Principle、State 和 Actions 刻画每个 concept。
+3. 用 Purpose、Operational Principle、关系式 State、带错误 case 与只读 queries 的 Actions 刻画每个 concept；规格四节零点名其他概念，使用上下文备注只进可选的 notes 段。
 4. 用专一、完整、独立、熟悉审查边界，并用 split/merge、unify/specialize、tighten/loosen 调整。
-5. 把跨 concept 的触发与约束写入 sync 块（含记法、原子语义、欠/过同步），并按 Parnas 依赖图圈定 MVP；在模型确认处停止。
+5. 把跨 concept 行为写成 when / where / then 因果 sync（作者现行记法，书版事务语义已废弃；外部请求具体化为 Requesting 动作、错误由错误 sync 匹配），并按 Parnas 依赖图圈定 MVP；在模型确认处停止。
 
 ## 安装载荷
 
