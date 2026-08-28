@@ -9,7 +9,19 @@ Monorepo **infrastructure** history. Each skill has its own changelog:
 | huawei-cloud-account-onboarding | [qa/huawei-cloud-account-onboarding/CHANGELOG.md](qa/huawei-cloud-account-onboarding/CHANGELOG.md) |
 | semantic-creator | [qa/semantic-creator/CHANGELOG.md](qa/semantic-creator/CHANGELOG.md) |
 | jackson-concept-design | [qa/jackson-concept-design/CHANGELOG.md](qa/jackson-concept-design/CHANGELOG.md) |
+| jackson-concept-prd | [qa/jackson-concept-prd/CHANGELOG.md](qa/jackson-concept-prd/CHANGELOG.md) |
+| jackson-concept-implementation | [qa/jackson-concept-implementation/CHANGELOG.md](qa/jackson-concept-implementation/CHANGELOG.md) |
+| jackson-concept-audit | [qa/jackson-concept-audit/CHANGELOG.md](qa/jackson-concept-audit/CHANGELOG.md) |
 | wyx-zh-cn | [qa/wyx-zh-cn/CHANGELOG.md](qa/wyx-zh-cn/CHANGELOG.md) |
+
+## 3.14.0 - 2026-08-28
+
+### Features
+
+- **jackson-concept-design** **0.2.0**: expand Sync notation (include/when, reactive/atomic/behavior-preserving rules), undersync/oversync/flow/synergy signals, and Parnas dependency-graph subsets for MVP and teaching order; route a confirmed model to companion skills (see skill changelog)
+- **jackson-concept-prd** **0.1.0**: add a transcription skill that turns a confirmed concept model into a PRD family — overall PRD, one sub-PRD per concept, syncs grouped by flow — without inventing content (see skill changelog)
+- **jackson-concept-implementation** **0.1.0**: add a mapping skill that lands a confirmed concept model on a modular monolith — one module per concept, syncs as mediators or a rule engine, language notes for Rust, Java/Spring Modulith, and TypeScript (see skill changelog)
+- **jackson-concept-audit** **0.1.0**: add a read-only five-dimension audit of a codebase against its concept model or PRD, with evidenced findings routed to design, prd, or implementation (see skill changelog)
 
 ## 3.13.0 - 2026-08-27
 

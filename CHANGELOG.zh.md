@@ -9,7 +9,19 @@ Monorepo **基础设施**变更。各技能独立 changelog：
 | huawei-cloud-account-onboarding | [qa/huawei-cloud-account-onboarding/CHANGELOG.md](qa/huawei-cloud-account-onboarding/CHANGELOG.md) |
 | semantic-creator | [qa/semantic-creator/CHANGELOG.md](qa/semantic-creator/CHANGELOG.md) |
 | jackson-concept-design | [qa/jackson-concept-design/CHANGELOG.md](qa/jackson-concept-design/CHANGELOG.md) |
+| jackson-concept-prd | [qa/jackson-concept-prd/CHANGELOG.md](qa/jackson-concept-prd/CHANGELOG.md) |
+| jackson-concept-implementation | [qa/jackson-concept-implementation/CHANGELOG.md](qa/jackson-concept-implementation/CHANGELOG.md) |
+| jackson-concept-audit | [qa/jackson-concept-audit/CHANGELOG.md](qa/jackson-concept-audit/CHANGELOG.md) |
 | wyx-zh-cn | [qa/wyx-zh-cn/CHANGELOG.md](qa/wyx-zh-cn/CHANGELOG.md) |
+
+## 3.14.0 - 2026-08-28
+
+### 新功能
+
+- **jackson-concept-design** **0.2.0**：扩充 Sync 记法（include/when、反应式/原子/行为保持）、欠同步/过同步/flow/synergy，以及 Parnas 依赖图子集（MVP 与讲解顺序）；模型确认后路由到伴生技能（详见技能 changelog）
+- **jackson-concept-prd** **0.1.0**：新增转录技能，把已确认的概念模型写成 PRD 文档族——总体 PRD、每概念一份子 PRD、syncs 按 flow 分组；不发明模型外内容（详见技能 changelog）
+- **jackson-concept-implementation** **0.1.0**：新增映射技能，把已确认的概念模型落地为模块单体——一个 concept 一个模块，sync 落在组合层（mediator 或规则引擎）；按需加载 Rust、Java/Spring Modulith、TypeScript 说明（详见技能 changelog）
+- **jackson-concept-audit** **0.1.0**：新增只读五维审计，对照概念模型或 PRD 与代码，给出带证据的发现并路由到 design / prd / implementation（详见技能 changelog）
 
 ## 3.13.0 - 2026-08-27
 
