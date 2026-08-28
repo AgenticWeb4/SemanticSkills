@@ -1,11 +1,11 @@
 ---
 name: jackson-concept-design
-description: Model or review requirements as Jackson concepts defined by Purpose, OP, State, and Actions, then compose them with Syncs. Use this skill whenever the user asks to discuss requirements or review a concept model; stop at model confirmation without producing engineering documents or code.
+description: Models or reviews requirements as Jackson concepts defined by Purpose, OP, State, and Actions, then composes them with Syncs. Use this skill whenever the user asks to discuss requirements, review a concept model, or mentions 概念设计 / 概念建模; stop at model confirmation without producing PRD or code.
 ---
 
 # Jackson 概念设计
 
-把需求转成可理解、可评价、可组合的概念模型。停在模型确认；除非用户明确要求，不生成 PRD、架构或代码。本文是按 Jackson 的结构、判据与设计动作整理的操作循环，不冒充作者原文流程。
+把需求转成可理解、可评价、可组合的概念模型。停在模型确认；除非用户明确要求，不生成 PRD、架构或代码。本文是按 Jackson 的结构、判据与设计动作整理的操作循环，不冒充作者原文流程。模型确认后：文档化为 PRD 规格用伴生技能 `jackson-concept-prd`，代码落地用 `jackson-concept-implementation`，存量审计用 `jackson-concept-audit`。
 
 ## 核心模型
 
@@ -33,7 +33,14 @@ Concept = Name + Purpose + Operational Principle + State + Actions
 2. **识别候选**：从具体场景自下而上找细粒度目的，优先熟悉、可复用的概念；不从名词表、实体、页面或团队边界映射。边界不明先保留备选。
 3. **逐个刻画**：写 Name、Purpose、具体 OP，由 OP 推导 actions 和最小 state；删除行为不需要的 state，补齐必要 action，成立后参数化上下文对象。
 4. **批评边界**：对每个候选过一遍资格判据与四词（见下节），结论只用：`保留`、`拆分`、`合并`、`参数化`、`降级为 type/action/implementation`、`移至 sync`、`待确认`。
-5. **组合再设计**：用 syncs 表达跨概念行为与应用入口，检查一致与可选子集。调整用三对 design moves：**split/merge**（控制力 vs 简单）、**unify/specialize**（通用 vs 贴合）、**tighten/loosen**（自动化 vs 灵活）。
+5. **组合再设计**（记法与规则见「组合：Sync」）：
+   - 选入 concepts 并以类型参数实例化（`include Session [User.User]`）；
+   - 写 syncs 表达跨概念行为与应用入口；
+   - 核查未被 sync 提及的动作——它们不在应用中出现，须是有意排除；
+   - 按欠同步、过同步与 synergy 检视组合质量；
+   - 画依赖图、枚举子集，圈定 MVP 与讲解、开发顺序。
+
+   调整用三对 design moves：**split/merge**（控制力 vs 简单）、**unify/specialize**（通用 vs 贴合）、**tighten/loosen**（自动化 vs 灵活）。
 
 ## 判据
 
@@ -71,16 +78,63 @@ Concept = Name + Purpose + Operational Principle + State + Actions
 | 故事、用例、feature、workflow | 场景/流程切片 | 独立、端到端服务恰好一个目的且有自己的状态机 |
 | 跨概念触发规则 | sync | 自有目的、状态和完整行为 |
 
-## Sync 与依赖
+## 组合：Sync
 
-Sync 约束多个 concept 的 actions 共同发生，用于触发、连接或限制应用行为。Concept 规范不点名其他 concepts；组合只写在 app/sync 层。
+Sync 约束多个 concept 的 actions 共同发生，用于触发、连接或限制应用行为。Concept 规范不点名其他 concepts；组合只写在组合层（app 级的 syncs）。记法与示例（压缩自 Jackson 的 ExpiringUserSession）：
 
-- **Intrinsic dependency**：concept 定义引用另一 concept——消除（参数化或移至 sync）。
-- **Extrinsic dependency**：应用选了 A 才有理由选 B——可以存在，但不写进 A 的定义。
+```text
+app ExpiringUserSession
+  include User
+  include Session [User.User]
+  include ExpiringResource [Session.Session]
+
+  sync login (name, pass: String, out u: User, out s: Session)
+    when User.authenticate (name, pass, u)
+    Session.start (u, s)
+    ExpiringResource.allocate (s, 300)
+
+  sync terminate (s: Session)
+    when ExpiringResource.expire (s)
+    Session.end (s)
+
+  sync authenticate (s: Session, out u: User)
+    Session.getUser (s, u)
+```
+
+- 无 `when` 的 sync 只是把概念动作暴露为应用动作（如上例 authenticate）。
+- 未被任何 sync 提及的概念动作不在应用中出现；排除是设计决策（Yellkey 不开放 renew），记入排除与未决表。
+
+**语义规则：**
+
+- **反应式**：`when` 中动作发生，联动动作随之发生；参数跨动作传递，sync 同时是数据流。
+- **原子**：全有或全无——任一联动动作被其概念阻塞，触发动作也不能发生。
+- **行为保持**：sync 可阻止动作、限制参数，但不能使概念做出孤立时不可能的行为；组合因此不破坏一致（Integrity）。
+- **实现层**由 mediator 落地 sync：mediator 引用概念，概念之间零相互引用。
+
+**模式与信号：**
+
+- **Placeholder 动作**：为同步而设计的概念提供占位动作，钉到其他概念的真实动作上——访问控制的 access、订阅的 notify。
+- **欠同步**：漏掉的自动化（Zoom 举手不随发言结束自动放下）→ tighten。
+- **过同步**：自动化抢走用户控制（日历删除事件即向邀请人发拒绝）→ loosen 或做成可配置。
+- **分解线索**：表面单概念、目的冲突，常是多概念同步（Facebook Like ≈ Upvote、Reaction 等的 sync）；回循环第 4 步拆分。
+- **Flow**：打穿概念的业务流程 = 一个外部请求触发、多条细粒度 sync 接力的动作链；流程本身不是另立概念的理由，升格判据见速查表末行（自有目的、状态和完整行为）。
+- **Synergy**：一个概念借另一概念实现自身功能，整体大于部分之和（Trash 做成 Folder，移动动作免费获得还原）；强求则反噬（Outlook 把系统日志装进邮件文件夹）。
+
+## 依赖图与子集
+
+- **Intrinsic dependency**：concept 定义引用另一 concept——必须消除（参数化或移至 sync）。
+- **Extrinsic dependency**：在具体应用中，没有 C2 则纳入 C1 没有意义（Comment 依赖 Post）；可以存在，但不写进 C1 的定义。
+
+以 extrinsic 依赖画图（Parnas 的 uses relation）：节点为概念，边 C1 → C2 表示含 C1 的版本必须含 C2。Parnas 规则：**不能没有 B 就用 A，就永远不该想没有 B 用 A**。
+
+依赖图的产出：
+
+- **产品家族**：每个"不缺依赖"的概念子集是一个可行产品；用它圈定 MVP 与版本演进。
+- **顺序**：讲解与开发都先做被依赖者（先 Post 后 Comment）。
 
 ## 输出格式
 
-```markdown
+````markdown
 ## 需求与 Misfits
 - 用户 / 需要 / 问题 / 结果 / 约束
 
@@ -93,20 +147,41 @@ Sync 约束多个 concept 的 actions 共同发生，用于触发、连接或限
 - 判断: 专一 / 完整 / 独立 / 熟悉
 
 ## Synchronizations
-| 应用动作 | When | 同步动作 | 组合理由/风险 |
+```text
+app <应用名>
+  include <Concept> [<Type>]
+
+  sync <应用动作> (<参数>)
+    when <Concept.action>
+    <Concept.action>    // 每条 sync 注明组合理由/风险
+```
+
+## 依赖图与子集
+- 依赖: C1 -> C2, ...
+- 子集: {MVP: ...} / {扩展: ...}
 
 ## 排除与未决
 | 候选/问题 | 结论 | 理由/取舍 |
-```
+````
 
 ## 完成条件
 
 - 每个 concept 恰好一个 purpose，OP 以兑现该 purpose 的结局收尾。
 - 每个 concept 的四词判断均有结论，结论词出自设计循环第 4 步词表。
 - State 与 actions 完整规定行为，无界面、协议或表结构细节。
-- 无 intrinsic dependency；跨概念行为全部落在 Synchronizations 表。
+- 无 intrinsic dependency；跨概念行为全部落在 sync 块，且每条满足行为保持。
+- 未被 sync 提及的动作均为有意排除；欠同步、过同步已按 tighten/loosen 检视。
+- 依赖图画出且无违反 Parnas 规则处；MVP 子集从图中圈定。
 - 被否决的候选与待决取舍全部进入排除与未决表，无空悬项。
 
-## 一手依据
+## 依据
 
-核验 Jackson 观点只用作者的[官方教程](https://essenceofsoftware.com/tutorials/)、[概念设计综述](https://essenceofsoftware.com/posts/distillation/)与 [Design moves](https://essenceofsoftware.com/posts/design-moves/)；引用时区分原句、忠实转述与本技能的操作性综合。
+核验只用作者原文：
+
+- [官方教程](https://essenceofsoftware.com/tutorials/)（含
+  [Sync 组合](https://essenceofsoftware.com/tutorials/concept-basics/sync/)、
+  [依赖与子集](https://essenceofsoftware.com/tutorials/concept-basics/dependency/)）
+- [概念设计综述](https://essenceofsoftware.com/posts/distillation/)
+- [Design moves](https://essenceofsoftware.com/posts/design-moves/)
+
+引用时区分原句、忠实转述与本技能的操作性综合。

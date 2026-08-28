@@ -98,9 +98,51 @@ skills:
     subdomains: [concept-design, requirements, software-design]
     summary: Models requirements as independent concepts defined by one purpose, an end-to-end operational principle, state, and actions; critiques boundaries through specificity, completeness, independence, and familiarity; composes application behavior with synchronizations and stops before engineering artifacts
     summary_zh: 用单一 Purpose、端到端 Operational Principle、State 和 Actions 建模独立 concepts；以专一、完整、独立、熟悉审查边界，用 synchronizations 组合应用行为，止于模型确认
-    version: "0.1.0"
+    version: "0.2.0"
     agents: [cursor, claude-code, codex, openclaw]
     compatibility: No external tools or network; pure concept modeling
+    marketplaces: []
+    distribution: direct-skill
+  - id: jackson-concept-prd
+    path: skills/jackson-concept-prd
+    qa: qa/jackson-concept-prd
+    display_name: "Jackson Concept PRD"
+    display_name_zh: "Jackson 概念 PRD"
+    domain: meta
+    subdomains: [concept-design, prd, specifications]
+    summary: Transcribes a confirmed Jackson concept model into a PRD family—overall PRD, one sub-PRD per concept, syncs grouped by flow—without inventing content; model gaps return to concept design
+    summary_zh: 把已确认的 Jackson 概念模型转录为 PRD 文档族：总体 PRD、每概念一份子 PRD、syncs 按 flow 分组；纯转录不再创作，缺口回上游建模
+    version: "0.1.0"
+    agents: [cursor, claude-code, codex, openclaw]
+    compatibility: No external tools or network; writes Markdown PRD files
+    marketplaces: []
+    distribution: direct-skill
+  - id: jackson-concept-implementation
+    path: skills/jackson-concept-implementation
+    qa: qa/jackson-concept-implementation
+    display_name: "Jackson Concept Implementation"
+    display_name_zh: "Jackson 概念实现"
+    domain: meta
+    subdomains: [concept-design, modular-monolith, implementation]
+    summary: Maps a confirmed Jackson concept model onto a modular monolith—one module per concept, syncs as mediators or a rule engine, the dependency graph as build and cut order; language notes for Rust, Java/Spring Modulith, and TypeScript
+    summary_zh: 把已确认的 Jackson 概念模型映射为模块单体：一个 concept 一个模块，sync 落在组合层（mediator 或规则引擎），依赖图决定构建与裁剪顺序；按需加载 Rust / Java / TypeScript 说明
+    version: "0.1.0"
+    agents: [cursor, claude-code, codex, openclaw]
+    compatibility: Mapping needs only the confirmed model; language-specific boundary tests may use cargo, Spring Modulith, or dependency-cruiser
+    marketplaces: []
+    distribution: direct-skill
+  - id: jackson-concept-audit
+    path: skills/jackson-concept-audit
+    qa: qa/jackson-concept-audit
+    display_name: "Jackson Concept Audit"
+    display_name_zh: "Jackson 概念审计"
+    domain: meta
+    subdomains: [concept-design, architecture-audit, spec-drift]
+    summary: Read-only five-dimension audit of a codebase against its Jackson concept model or PRD family—spec drift, boundary violations, criteria review, composition quality, dependency/subset integrity—with evidenced findings routed to design, prd, or implementation
+    summary_zh: 只读对照概念模型或 PRD 与代码，按规格漂移、边界违规、判据重审、组合质量、依赖与子集五维给出带证据的发现，并路由到 design / prd / implementation
+    version: "0.1.0"
+    agents: [cursor, claude-code, codex, openclaw]
+    compatibility: Read-only; needs the codebase plus optional PRD or concept-model docs
     marketplaces: []
     distribution: direct-skill
   - id: wyx-zh-cn
