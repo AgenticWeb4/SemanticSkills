@@ -6,7 +6,7 @@ Conventions for skills in this monorepo. Spec baseline: [agentskills.io](https:/
 
 | Path | Purpose |
 | --- | --- |
-| `skills/<name>/` | Installable runtime only (`SKILL.md` + optional `references/`, `scripts/`, `assets/`) |
+| `skills/<name>/` | Installable runtime only (`SKILL.md` + optional `references/`, `scripts/`, `assets/`, `agents/openai.yaml`) |
 | `qa/<name>/` | Validation, evals, assertions — never copied by `npx skills add` |
 | `docs/skills/<name>.md` | Human-facing skill overview for the repo README index |
 
@@ -65,6 +65,19 @@ metadata:
   Declare `metadata.openclaw` so scans match runtime behavior.
 
 Keep frontmatter concise; put long guidance in `references/`.
+
+## Codex UI metadata (`agents/openai.yaml`)
+
+Optional per-skill file read by the harness, not the agent ([Codex skills docs](https://developers.openai.com/codex/skills)). Present in the `jackson-concept-*` and `wyx-zh-cn` bundles:
+
+```yaml
+interface:
+  display_name: "Jackson Concept Design"   # required when the file exists
+  short_description: "..."                 # required, 25–64 chars
+  default_prompt: "Use $jackson-concept-design to ..."   # must name the skill as $name
+```
+
+Add `policy.allow_implicit_invocation: false` only when a skill should stay out of automatic selection and be invoked as `$name`. Keep values consistent with `SKILL.md`; regenerate when the description changes.
 
 ## Interaction discipline (all skills)
 

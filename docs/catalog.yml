@@ -75,20 +75,6 @@ skills:
     compatibility: No external tools or network; writes three YAML files plus a round-1 progress note
     marketplaces: []
     distribution: direct-skill
-  - id: constraint-charter
-    path: skills/constraint-charter
-    qa: qa/constraint-charter
-    display_name: "Constraint Charter — Persist Uncle Bob Gates as GATES.md"
-    display_name_zh: "约束宪章 · 把门禁固化为 GATES.md"
-    domain: meta
-    subdomains: [agent-ops, quality-gates, atdd]
-    summary: Persists audit goals, numeric gates, Gherkin entry points, and knowingly-untested lists as a versioned GATES.md Constraint Charter via grilling; wires every row to pre-commit/CI so correctness without reading agent code is part of the software
-    summary_zh: 经 grilling 确立审计目标与数值门禁，固化为受版本控制的 GATES.md 约束宪章并接线 pre-commit/CI，使「不看代码也能正确」成为软件本身的一部分
-    version: "0.1.0"
-    agents: [cursor, claude-code, codex, openclaw]
-    compatibility: Grilling-style Q&A; optional pre-commit/CI tools to enforce charter thresholds; no cloud credentials
-    marketplaces: []
-    distribution: direct-skill
   - id: jackson-concept-design
     path: skills/jackson-concept-design
     qa: qa/jackson-concept-design
