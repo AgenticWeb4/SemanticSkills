@@ -32,9 +32,9 @@ Huawei Cloud Read-Only Billing — Spend, Charges & Reconciliation
 
 ## 分工
 
-`SKILL.md` 定行为；`semantic/catalog.yml` 定入口与必备上下文；`semantic/billing-ontology.yml` 定事实、粒度、口径与 `source_operations`；`references/related-commands.md` 定可抄写的 BSS 模板与分页上限。
+`SKILL.md` 定行为；语义层 `catalog.yml` 定入口与必备上下文；`billing-ontology.yml` 定事实、粒度、口径与 `source_operations`；`references/related-commands.md` 定可抄写的 BSS 模板与分页上限。
 
-四类账务问题与路由：见 `references/semantic/catalog.yml`。
+四类账务问题与路由：见语义 catalog 的 entry points。
 
 ## 查证路径
 
