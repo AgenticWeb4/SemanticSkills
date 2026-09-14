@@ -49,7 +49,8 @@ English: [README.md](README.md)。
 
 | 技能 | 版本 | 做什么 |
 | --- | --- | --- |
-| [`html-slides`](docs/skills/html-slides.md) | 0.1.0 | 仅显式调用：大纲 → 逐页表 → 明文单文件 HTML 胶片；风格可插拔（generic、华为官方浅/深色、Apple）；可选导出 PPTX |
+| [`html-slides`](docs/skills/html-slides.md) | 0.1.1 | 仅显式调用：大纲 → 逐页表 → 明文单文件 HTML 胶片；风格可插拔（generic、华为官方浅/深色、Apple）；可选导出 PPTX |
+| [`claude-md`](docs/skills/claude-md.md) | 0.1.0 | 仅显式调用：根据仓库事实生成或精简 CLAUDE.md，只保留能避免具体错误的规则 |
 
 各技能细节与安全边界见 [docs/skills/](docs/skills/)，机器可读索引见 [docs/catalog.yml](docs/catalog.yml)，仓库更新日志见 [CHANGELOG.zh.md](CHANGELOG.zh.md)，各技能变更记录在 `qa/<name>/CHANGELOG.md`。
 

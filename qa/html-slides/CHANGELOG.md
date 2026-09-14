@@ -1,5 +1,11 @@
 # html-slides Changelog
 
+## 0.1.1 - 2026-09-15
+
+### Changed
+
+- Remove the bundled Huawei Cloud logo and update asset references; sub-brand logos are now user-supplied.
+
 ## 0.1.0 - 2026-09-09
 
 ### Added

@@ -4,7 +4,7 @@ description: "Builds a PPT / 胶片 / 汇报 / 授课 deck as a plain single-fil
 compatibility: File read/write only. Optional PPTX export needs Python 3, playwright and python-pptx (never auto-installed).
 metadata:
   author: ontology-of-everything
-  version: "0.1.0"
+  version: "0.1.1"
   openclaw:
     homepage: https://github.com/ontology-of-everything/concept-skills/tree/main/skills/html-slides
 ---

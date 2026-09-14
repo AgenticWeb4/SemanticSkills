@@ -1,7 +1,7 @@
 # styles/huawei.md — 华为官方胶片风格
 
 依据：对 6 份华为官方公开 PPT/PDF（标准空白模板、eKit KV、分销方案、DME 产品胶片、ICT 学院与人才生态胶片、英文存储发布会）共 152 页的逐页分析。
-资产：`assets/huawei/`（`vars-light.css`、`vars-dark.css`、`style.css`、`patterns.html`、5 件素材约 1 MB）。
+资产：`assets/huawei/`（`vars-light.css`、`vars-dark.css`、`style.css`、`patterns.html`、4 件素材约 1 MB）。
 
 ## 1. 识别特征
 
@@ -62,7 +62,7 @@
 | 页脚左 | 页码 + 密级（阶段 1 问：`Huawei Confidential` / `Huawei Proprietary – Restricted Distribution` / 内部公开 / 留空） | `.foot-l` | 文本；封面用「Security Level:」，致谢页无页脚 |
 | 页脚右 | 横版 logo | `.foot-r img` | `logo-horizontal.png` → data URI，高 28px |
 | 封面背景 | KV | 封面 section `background` | 浅色 `kv-light-planet.jpeg`；深色 `kv-dark-lightpath.jpeg`；经典「雪山红伞」未随包（1.3 MB），用户自带 |
-| 子品牌 | 无 | 封面 / 页脚 | 华为云：`logo-huaweicloud.png` 替换页脚 logo；ICT 学院徽章、昇腾 / 鲲鹏 / 鸿蒙等技术品牌 logo 用户自带 |
+| 子品牌 | 无 | 封面 / 页脚 | 子品牌 logo 用户自带，用于替换封面或页脚 logo |
 | 花瓣图形 | 无 | 章扉 / 观点页装饰 | `petal-red.png` 透明底，`opacity:.08` 大尺寸置底 |
 | 使命宣言 / 版权 | 见 `patterns.html` 致谢段 | 致谢页 | 文本 |
 
@@ -71,7 +71,6 @@
 | 文件 | 尺寸 / 大小 | 用途 |
 | --- | --- | --- |
 | `logo-horizontal.png` | 266×60 透明，22 KB | 页脚右下、封面底条 |
-| `logo-huaweicloud.png` | 透明，9 KB | 华为云子品牌页脚 |
 | `petal-red.png` | 透明，160 KB | 花瓣装饰 |
 | `kv-light-planet.jpeg` | 1920×1080，158 KB | 浅色封面 KV（彩色星球飘带，发布会风格右侧半幅） |
 | `kv-dark-lightpath.jpeg` | 1920×1080，610 KB | 深色封面 KV（深蓝金光轨，研究报告 / 技术分享） |

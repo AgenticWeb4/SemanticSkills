@@ -4,7 +4,7 @@
 
 > 本文是给人看的中文说明，**不是** `npx skills add` 安装包内容。Agent 加载 [`skills/html-slides/SKILL.md`](../../skills/html-slides/SKILL.md)。
 
-**Version:** 0.1.0 · Changelog:
+**Version:** 0.1.1 · Changelog:
 [qa/html-slides/CHANGELOG.md](../../qa/html-slides/CHANGELOG.md)
 
 ## 一句话
@@ -26,7 +26,7 @@ $html-slides 15 分钟华为云 DME 产品介绍，对象客户 IT 主管，华�
 | 单一模板硬编码色值 | 核心只用 CSS 变量；`assets/<style>/vars-*.css` 给值；新增风格不改核心 |
 | 知识与工具混在一起 | 只保留「怎么做好一份胶片」的知识 + 一个可选导出脚本 |
 | 代码散落在 markdown 里 | 代码集中在 `assets/`（可直接用浏览器打开预览），`references/` 只讲规则 |
-| 素材体积大 | 华为素材精选 5 件约 1 MB；其余用户自带 |
+| 素材体积大 | 华为素材精选 4 件约 1 MB；其余用户自带 |
 | 溢出检查靠脚本 | 运行时内置 `?debug` 标记 + agent 自检清单 |
 
 ## 方法
@@ -64,7 +64,7 @@ skills/html-slides/
 ├── assets/
 │   ├── core/                    # base.css · runtime.js · skeletons.html（骨架画廊）
 │   ├── generic/                 # vars-light.css · vars-dark.css
-│   ├── huawei/                  # vars-*.css · style.css · patterns.html · 5 件素材
+│   ├── huawei/                  # vars-*.css · style.css · patterns.html · 4 件素材
 │   └── apple/                   # vars-*.css · style.css
 └── tools/export_pptx.py         # 可选：截图贴图版 PPTX（playwright + python-pptx，不自动安装）
 ```

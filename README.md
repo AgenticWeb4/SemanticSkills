@@ -49,7 +49,8 @@ Enterprise knowledge from APIs and databases (`semantic-km-creator`); personal k
 
 | Skill | Version | What it does |
 | --- | --- | --- |
-| [`html-slides`](docs/skills/html-slides.md) | 0.1.0 | Explicit-only deck builder: outline → per-page table → plain single-file HTML deck in a pluggable style (generic, Huawei official light/dark, Apple); optional PPTX export |
+| [`html-slides`](docs/skills/html-slides.md) | 0.1.1 | Explicit-only deck builder: outline → per-page table → plain single-file HTML deck in a pluggable style (generic, Huawei official light/dark, Apple); optional PPTX export |
+| [`claude-md`](docs/skills/claude-md.md) | 0.1.0 | Explicit-only generation and pruning of CLAUDE.md from repository evidence |
 
 Per-skill details and safety boundaries: [docs/skills/](docs/skills/). Machine-readable index: [docs/catalog.yml](docs/catalog.yml). Monorepo changelog: [CHANGELOG.md](CHANGELOG.md). Per-skill changelogs: `qa/<name>/CHANGELOG.md`.
 
