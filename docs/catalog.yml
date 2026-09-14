@@ -1,0 +1,125 @@
+# Machine-readable skill index. Keep in sync with skills/ and qa/.
+version: 1
+skills:
+  - id: semantic-km-creator
+    path: skills/semantic-km-creator
+    qa: qa/semantic-km-creator
+    display_name: "Semantic KM Creator — Enterprise Knowledge from APIs & Databases"
+    display_name_zh: "语义 · 企业知识 · 接口/库转语义层"
+    domain: meta
+    subdomains: [semantic-layer, dimensional-modeling, ontology, okf, enterprise-knowledge]
+    summary: Enterprise knowledge—turns a REST/OpenAPI, CLI, or table/DDL interface into a governed Kimball semantic layer through an interactive HTML decision workbench with fixed YAGNI guidance, atomic decisions, explicit options, evidence, risks, dependencies, and user approval; emits Google OKF v0.1 by default or repo YAML; evidence-only; counterpart to semantic-pkm-creator
+    summary_zh: 企业知识 · 把 REST/CLI/数据表接口经访谈与 HTML 决策工作台建成 Kimball 语义层；四类固定 YAGNI 指导帮助理解原子决定、候选、证据、风险、依赖与权衡，用户显式批准后输出；默认 Google OKF v0.1，可选仓库 YAML；不臆造；个人知识库见 semantic-pkm-creator
+    version: "0.6.0"
+    agents: [cursor, claude-code, codex, openclaw]
+    compatibility: No external tools or network; pure modeling + file generation; review report is self-contained HTML (inline CSS/JS, no CDN)
+    marketplaces: [skills-sh, skillsmp, clawhub]
+    distribution: direct-skill
+    clawhub_license: MIT-0 on ClawHub; repository source remains Apache-2.0
+  - id: semantic-pkm-creator
+    path: skills/semantic-pkm-creator
+    qa: qa/semantic-pkm-creator
+    display_name: "Semantic PKM Creator — Scene, Concept, Entity Extract"
+    display_name_zh: "语义 · 个人知识管理 · 场景-概念-实体萃取"
+    domain: meta
+    subdomains: [knowledge-extraction, ontology, sce]
+    summary: Personal knowledge management—two-round extract of callable scenes, concepts, and entities from source text—skeleton first with human confirm, then IPO/decompose/assemble and eight relation types; concept is the hub
+    summary_zh: 个人知识管理 · 两轮从原文萃取可调用的场景、概念与实体：先扫骨架并确认，再回填 IPO/分解/组装与八种关系；概念是中枢
+    version: "0.3.0"
+    agents: [cursor, claude-code, codex, openclaw]
+    compatibility: No external tools or network; writes three YAML files plus a round-1 progress note; relation reference loaded on demand
+    marketplaces: [skills-sh, skillsmp, clawhub]
+    distribution: direct-skill
+    clawhub_license: MIT-0 on ClawHub; repository source remains Apache-2.0
+  - id: concept-design
+    path: skills/concept-design
+    qa: qa/concept-design
+    display_name: "Concept Design"
+    display_name_zh: "概念设计"
+    domain: meta
+    subdomains: [concept-design, requirements, software-design]
+    summary: Explicit-invocation-only — designs independent concepts and synchronizations; reviews concept purposes through operational principles and application purposes through end-to-end scenarios, with evidence and counterexamples.
+    summary_zh: 仅显式调用 · 设计独立概念与同步组合；用 OP 检验概念目的，用端到端场景检验应用目的，以事实和反例审查论证
+    version: "0.8.0"
+    agents: [cursor, claude-code, codex, openclaw]
+    compatibility: No external tools or network; pure concept modeling
+    marketplaces: [skills-sh, skillsmp, clawhub]
+    distribution: direct-skill
+    clawhub_license: MIT-0 on ClawHub; repository source remains Apache-2.0
+  - id: concept-prd
+    path: skills/concept-prd
+    qa: qa/concept-prd
+    display_name: "Concept PRD"
+    display_name_zh: "概念 PRD"
+    domain: meta
+    subdomains: [concept-design, prd, specifications]
+    summary: Explicit-invocation-only — transcribes confirmed models into an overall PRD, per-concept specifications and synchronizations, preserving concept/application purposes, assumptions, unresolved decisions and acceptance traceability.
+    summary_zh: 仅显式调用 · 将确认模型转录为总体 PRD、概念规格与同步规则，保留概念/应用目的、论证前提、未决取舍及验收追溯
+    version: "0.7.0"
+    agents: [cursor, claude-code, codex, openclaw]
+    compatibility: No external tools or network; writes Markdown PRD files
+    marketplaces: [skills-sh, skillsmp, clawhub]
+    distribution: direct-skill
+    clawhub_license: MIT-0 on ClawHub; repository source remains Apache-2.0
+  - id: concept-implementation
+    path: skills/concept-implementation
+    qa: qa/concept-implementation
+    display_name: "Concept Implementation — Modular Monolith"
+    display_name_zh: "概念实现 · 模块单体"
+    domain: meta
+    subdomains: [concept-design, modular-monolith, implementation]
+    summary: Explicit-invocation-only — implements confirmed concept models as modular monoliths with independent modules, causal synchronization, colocated specifications, and tests tied to concept and application purposes.
+    summary_zh: 仅显式调用 · 将确认模型实现为模块单体，保持概念独立与因果同步，规格共存，测试分别关联概念目的与应用目的
+    version: "0.8.0"
+    agents: [cursor, claude-code, codex, openclaw]
+    compatibility: Mapping needs only the confirmed model; language-specific boundary tests may use cargo, Spring Modulith, or dependency-cruiser
+    marketplaces: [skills-sh, skillsmp, clawhub]
+    distribution: direct-skill
+    clawhub_license: MIT-0 on ClawHub; repository source remains Apache-2.0
+  - id: concept-audit
+    path: skills/concept-audit
+    qa: qa/concept-audit
+    display_name: "Concept Audit"
+    display_name_zh: "概念审计"
+    domain: meta
+    subdomains: [concept-design, architecture-audit, spec-drift]
+    summary: Explicit-invocation-only — read-only audit of concept and application design arguments, with optional implementation conformance checks; covers fitness for purpose, independence, composition, drift and product subsets, routing evidenced findings by root cause.
+    summary_zh: 仅显式调用 · 只读审查概念与应用目的兑现论证；有代码时再核对实现符合性，覆盖适切性、独立性、组合、漂移和产品子集，按证据与根因路由修复
+    version: "0.7.0"
+    agents: [cursor, claude-code, codex, openclaw]
+    compatibility: Read-only; design review needs requirements and a concept model, implementation checks additionally need code
+    marketplaces: [skills-sh, skillsmp, clawhub]
+    distribution: direct-skill
+    clawhub_license: MIT-0 on ClawHub; repository source remains Apache-2.0
+  - id: concept-guardrails
+    path: skills/concept-guardrails
+    qa: qa/concept-guardrails
+    display_name: "Concept Guardrails"
+    display_name_zh: "概念护栏"
+    domain: meta
+    subdomains: [architecture, module-boundaries, drift-detection, concept-specs]
+    summary: Explicit-invocation-only — six modes for specification coverage, concept backfill, drift, pipelines, synchronizations and derived maps; distinguishes evidence, inferred purposes and design gaps in the local Jackson notation, with optional wyx hooks.
+    summary_zh: 仅显式调用 · 六种模式处理规格覆盖、概念回填、漂移、管道、同步与地图；区分事实、推定目的及设计缺口，使用本仓 Jackson 记法，可选 wyx hooks
+    version: "0.32.0"
+    agents: [cursor, claude-code, codex, openclaw]
+    compatibility: Specs and drift checks need only file read/write plus Grep/Glob; the optional boundary-injection runtime requires Claude Code hooks and jq
+    marketplaces: [skills-sh, skillsmp, clawhub]
+    distribution: direct-skill
+    clawhub_license: MIT-0 on ClawHub; repository source remains Apache-2.0
+    upstream: https://github.com/jlifyio/wyx (MIT; notice retained as skills/concept-guardrails/LICENSE.upstream)
+  - id: html-slides
+    path: skills/html-slides
+    qa: qa/html-slides
+    display_name: "HTML Slides — Styled Single-File Decks (Huawei / Apple / Generic)"
+    display_name_zh: "HTML 胶片 · 华为 / Apple / 通用风格单文件 HTML 演示"
+    domain: content
+    subdomains: [presentation, slides, huawei-style, html-deck]
+    summary: Explicit-invocation-only deck builder—settles scene, audience, duration and style, confirms an outline then a per-page table, and writes a plain single-file 1920×1080 HTML (inlined vars + base.css + runtime.js, one section per page, data-URI images, ?debug overflow check) in a pluggable style (generic, huawei official light/dark with bundled assets, apple); optional screenshot PPTX via tools/export_pptx.py or python-pptx rebuild
+    summary_zh: 仅显式调用的胶片生成器 · 先定场景 / 对象 / 时长 / 风格，确认大纲再确认逐页表，然后写一份明文单文件 1920×1080 HTML（内联变量块 + base.css + runtime.js，每页一个 section，图片 data URI，?debug 查溢出）；风格插拔：generic、huawei 官方浅 / 深色（随包素材）、apple；可选截图版 PPTX 或 python-pptx 重建
+    version: "0.1.0"
+    agents: [cursor, claude-code, codex, openclaw]
+    compatibility: Writing the deck needs only file read/write; optional tools/export_pptx.py needs Python 3, playwright (Chromium) and python-pptx, never auto-installed
+    marketplaces: [skills-sh, skillsmp, clawhub]
+    distribution: direct-skill
+    clawhub_license: MIT-0 on ClawHub; repository source remains Apache-2.0
+    notes: Huawei assets under assets/huawei are Huawei trademarks bundled for Huawei-style decks only
