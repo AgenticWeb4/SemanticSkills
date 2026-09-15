@@ -10,15 +10,16 @@ def main():
     parser.add_argument("--write", action="store_true", help="refresh packaged copies")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
-    source = root / "skills/concept-design/references/spec-format.md"
-    content = source.read_bytes()
     stale = []
-    for name in ("concept-prd", "concept-implementation", "concept-audit", "concept-guardrails"):
-        target = root / "skills" / name / "references/spec-format.md"
-        if args.write:
-            target.write_bytes(content)
-        elif not target.exists() or target.read_bytes() != content:
-            stale.append(str(target.relative_to(root)))
+    for locale, suffix in (("en", ""), ("cn", "-cn")):
+        source = root / "skills" / locale / f"concept-design{suffix}" / "references/spec-format.md"
+        content = source.read_bytes()
+        for name in ("concept-prd", "concept-implementation", "concept-audit", "concept-guardrails"):
+            target = root / "skills" / locale / f"{name}{suffix}" / "references/spec-format.md"
+            if args.write:
+                target.write_bytes(content)
+            elif not target.exists() or target.read_bytes() != content:
+                stale.append(str(target.relative_to(root)))
     if stale:
         parser.exit(1, "Stale contract copies; run tools/sync-concept-contract.py --write:\n" + "\n".join(stale) + "\n")
     print("OK: concept specification contract copies are consistent")

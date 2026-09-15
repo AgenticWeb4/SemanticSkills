@@ -7,10 +7,15 @@
       "description": "Requirements to modules via concepts and synchronizations: design, PRD, implementation, audit, and colocated spec guardrails.",
       "skills": [
         "concept-design",
+        "concept-design-cn",
         "concept-prd",
+        "concept-prd-cn",
         "concept-implementation",
+        "concept-implementation-cn",
         "concept-audit",
-        "concept-guardrails"
+        "concept-audit-cn",
+        "concept-guardrails",
+        "concept-guardrails-cn"
       ]
     },
     {
@@ -18,14 +23,17 @@
       "description": "Enterprise knowledge from APIs and databases, and personal-knowledge extraction.",
       "skills": [
         "semantic-km-creator",
-        "semantic-pkm-creator"
+        "semantic-km-creator-cn",
+        "semantic-pkm-creator",
+        "semantic-pkm-creator-cn"
       ]
     },
     {
       "title": "Presentation",
       "description": "Explicit-invocation HTML decks in pluggable visual styles.",
       "skills": [
-        "html-slides"
+        "html-slides",
+        "html-slides-cn"
       ]
     }
   ]

@@ -9,6 +9,8 @@ npx skills add ontology-of-everything/concept-skills \
   --copy
 ```
 
+Base skill names install English; append `-cn` for Simplified Chinese.
+
 Or copy `skills/<skill-name>/` to:
 
 - `~/.claude/skills/` (user-wide), or
