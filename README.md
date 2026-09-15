@@ -74,6 +74,8 @@ Requires Node.js for `npx`.
 
 Base names install English. Append `-cn` for Simplified Chinese.
 
+ClawHub publishes only the English `skills/en` editions; Chinese editions remain on GitHub.
+
 ```bash
 npx skills add ontology-of-everything/concept-skills \
   --skill <skill-name> \
